@@ -10,6 +10,7 @@ click = "*"
 pytest = "*"
 bumpversion = "*"
 sphinx = "*"
+recommonmark = "*"
 
 [requires]
 python_version = "3.7"
