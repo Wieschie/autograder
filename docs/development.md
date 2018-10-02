@@ -9,11 +9,10 @@
   * `bumpversion --verbose --dry-run major/minor/fix`: See what increasing the version would actually do.
   * `.bumpversion.cfg`: contains all settings for bumpversion, including a list of places to increment the version
 * Use sphinx for documentation
-  * http://www.sphinx-doc.org/en/master/usage/quickstart.html
 * pytest for testing
-* pyinstaller to freeze? https://www.pyinstaller.org/
-https://docs.python-guide.org/writing/documentation/
-https://docs.python-guide.org/writing/structure/
+* [pyinstaller](https://www.pyinstaller.org/) to freeze?
+* https://docs.python-guide.org/writing/documentation/
+* https://docs.python-guide.org/writing/structure/
 
 ## 2018-09-25
 * Set up Sphinx to work with markdown (and added this file).
@@ -26,5 +25,13 @@ https://docs.python-guide.org/writing/structure/
 ## 2018-09-27
 * Worked on running JUnit tests from command line.
   * `mkdir complex_numbers/out`
-  * `javac -cp "lib/*:complex_numbers/src/" -d complex_numbers/out complex_numbers/src/p05/* ComplexTests.java`
-  * `java -jar lib/junit-platform-console-standalone-1.3.1.jar -cp "complex_numbers/out/" -c p05.ComplexTests --reports-dir=complex_numbers/out`
+  * `javac -cp "lib/*:$COMP/src/" -d $COMP/out $COMP/src/p05/*`
+  * `java -jar lib/junit-platform-console-standalone-1.3.1.jar -cp "$COMP/out/" -c p05.ComplexTests --reports-dir=$COMP/out`
+* Look at [subprocess](https://docs.python.org/3/library/subprocess.html#module-subprocess) for managing external tooling
+* Good resource for setting limits on spawned processes? https://stackoverflow.com/questions/47676469/creating-a-minimal-sandbox-for-running-binary-programs-in-python3
+
+## 2018-10-2
+* JUnit tests can be compiled against a single solution, then the class file used to test all projects.
+  * Class file has to be copied into directory with other class files
+  * This handles missing methods without erroring out
+

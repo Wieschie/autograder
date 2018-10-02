@@ -113,3 +113,4 @@ dmypy.json
 # emacs markdown previews
 *.temp
 *#*
+*.html
