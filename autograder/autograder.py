@@ -1,5 +1,10 @@
+"""
+Command line utility to launch automatic grading of programming assignments
+"""
+
 import click
 import subprocess as sp
+from typing import List
 
 # timeout of commands in seconds
 TIMEOUT = 10
@@ -15,15 +20,17 @@ def junit(directory):
     print(out)
 
 
-def run_command(cmd):
+def run_command(cmd: List[str]) -> (int, str, str):
     """
-    runs a given command, saving output
+    Runs a given command, saving output
+
     Args:
-        cmd (list(str)): Command and arguments to run
+        cmd: Command and arguments to run
 
     Returns:
-        return_value (int): return value of process, or -1 if timed out
-        out (str): STDOUT of process
+        - return value of process, or -1 if timed out
+        - STDOUT of process
+        - STDERR of process
     """
     proc = sp.Popen(cmd, stdin=sp.PIPE, stdout=sp.PIPE, stderr=sp.PIPE)
     out, err = "", ""

@@ -34,4 +34,8 @@
 * JUnit tests can be compiled against a single solution, then the class file used to test all projects.
   * Class file has to be copied into directory with other class files
   * This handles missing methods without erroring out
-
+  
+## 2018-10-4
+* used `subprocess.Popen()` to run a command and save output
+* Configured Sphinx to use Google-style docstrings and type hints
+* https://pythonhosted.org/an_example_pypi_project/sphinx.html#full-code-example
