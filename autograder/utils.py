@@ -5,10 +5,39 @@ Utility functions for autograder
 
 from pathlib import Path
 import subprocess as sp
-from typing import List
+import sys
+from typing import List, TextIO
 
 # timeout of commands in seconds
 TIMEOUT = 10
+
+
+def box_text(text: str) -> str:
+    """
+    Draws an Unicode box around the original content
+
+    Args:
+        text: original content (should be 80 characters or less)
+
+    Returns:
+        A four-line string.  Unicode box with content centered and a newline at the end.
+    """
+    top = "┌" + '─' * (len(text) + 2) + '┐'
+    bot = '└' + '─' * (len(text) + 2) + '┘'
+    return top + "\n│ " + text + " │\n" + bot + "\n"
+
+
+def log_command(file: TextIO, ret: int, out: str, err: str):
+    """ Writes output of command to a specified file """
+    file.write(f"\nCommand exited with value {ret}\n")
+    file.write("STDOUT:\n")
+    file.write(out + "\n")
+    file.write("STDERR:\n")
+    file.write(err)
+
+
+def print_command(ret: int, out: str, err: str):
+    log_command(sys.stdout, ret, out, err)
 
 
 def run_command(cmd: List[str], cwd: str) -> (int, str, str):
@@ -35,13 +64,6 @@ def run_command(cmd: List[str], cwd: str) -> (int, str, str):
         return_value = -1
     return return_value, out.decode(), err.decode()
 
-
-def print_command(ret: int, out: str, err: str):
-    print(f"\nCommand exited with value {ret}")
-    print("OUTPUT:")
-    print(out)
-    print("ERRORS:")
-    print(err)
 
 def walk_subdirs(directory: str) -> List[Path]:
     """ does a flat walk of directory and returns all visible subdirectories """
