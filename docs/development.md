@@ -30,12 +30,17 @@
 * Look at [subprocess](https://docs.python.org/3/library/subprocess.html#module-subprocess) for managing external tooling
 * Good resource for setting limits on spawned processes? https://stackoverflow.com/questions/47676469/creating-a-minimal-sandbox-for-running-binary-programs-in-python3
 
-## 2018-10-2
+## 2018-10-02
 * JUnit tests can be compiled against a single solution, then the class file used to test all projects.
   * Class file has to be copied into directory with other class files
   * This handles missing methods without erroring out
   
-## 2018-10-4
+## 2018-10-04
 * used `subprocess.Popen()` to run a command and save output
 * Configured Sphinx to use Google-style docstrings and type hints
 * https://pythonhosted.org/an_example_pypi_project/sphinx.html#full-code-example
+
+## 2018-10-09
+* `os.scandir()` lists subdirectories without recursing
+* use `pathlib` to handle paths.  the `/` operator is overloaded to join paths
+* Have to pass in `args` as a list to `subprocess` for POSIX compatibility. Use `shlex` to properly split strings into args
