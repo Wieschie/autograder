@@ -44,3 +44,5 @@
 * `os.scandir()` lists subdirectories without recursing
 * use `pathlib` to handle paths.  the `/` operator is overloaded to join paths
 * Have to pass in `args` as a list to `subprocess` for POSIX compatibility. Use `shlex` to properly split strings into args
+* JUnit timeouts work as expected.
+* Use `difflib` to compare actual and expected output.  Only way to check if successful is returning an empty string?

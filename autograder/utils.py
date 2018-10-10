@@ -3,6 +3,7 @@ Utility functions for autograder
 """
 
 
+import difflib
 from pathlib import Path
 import subprocess as sp
 import sys
@@ -27,6 +28,24 @@ def box_text(text: str) -> str:
     return top + "\n│ " + text + " │\n" + bot + "\n"
 
 
+def diff_output(expected: TextIO, actual: str) -> str:
+    """
+    Compares the expected and actual outputs of a command
+
+    Args:
+        expected: text file containing expected output
+        actual: STDOUT captured from command
+
+    Returns:
+        str: diff output
+    """
+    # process expected file
+    expected = expected.readlines()
+    #expected = [l.strip() for l in expected]
+
+    return ''.join(difflib.unified_diff(expected, actual.splitlines(True), fromfile="expected", tofile="actual"))
+
+
 def log_command(file: TextIO, ret: int, out: str, err: str):
     """ Writes output of command to a specified file """
     file.write(f"\nCommand exited with value {ret}\n")
@@ -40,13 +59,14 @@ def print_command(ret: int, out: str, err: str):
     log_command(sys.stdout, ret, out, err)
 
 
-def run_command(cmd: List[str], cwd: str) -> (int, str, str):
+def run_command(cmd: List[str], cwd: str = None, sinput: str = None) -> (int, str, str):
     """
     Runs a given command, saving output
 
     Args:
         cmd: Command and arguments to run
         cwd: Working directory to use
+        sinput: text input to pipe to process
 
     Returns:
         - return value of process, or -1 if timed out
@@ -54,9 +74,10 @@ def run_command(cmd: List[str], cwd: str) -> (int, str, str):
         - STDERR of process
     """
     proc = sp.Popen(cmd, cwd=cwd, stdin=sp.PIPE, stdout=sp.PIPE, stderr=sp.PIPE)
-    out, err = "", ""
     try:
-        out, err = proc.communicate(timeout=TIMEOUT)
+        if sinput is not None:
+            sinput = sinput.encode('utf-8')
+        out, err = proc.communicate(sinput, timeout=TIMEOUT)
         return_value = proc.wait()
     except sp.TimeoutExpired:
         proc.kill()
