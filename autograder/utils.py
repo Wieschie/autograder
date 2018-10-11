@@ -41,7 +41,7 @@ def diff_output(expected: TextIO, actual: str) -> str:
     """
     # process expected file
     expected = expected.readlines()
-    #expected = [l.strip() for l in expected]
+    # expected = [l.strip() for l in expected]
 
     return ''.join(difflib.unified_diff(expected, actual.splitlines(True), fromfile="expected", tofile="actual"))
 
@@ -59,7 +59,7 @@ def print_command(ret: int, out: str, err: str):
     log_command(sys.stdout, ret, out, err)
 
 
-def run_command(cmd: List[str], cwd: str = None, sinput: str = None) -> (int, str, str):
+def run_command(cmd: List[str], cwd: Path = None, sinput: str = None) -> (int, str, str):
     """
     Runs a given command, saving output
 
