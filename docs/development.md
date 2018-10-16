@@ -46,3 +46,8 @@
 * Have to pass in `args` as a list to `subprocess` for POSIX compatibility. Use `shlex` to properly split strings into args
 * JUnit timeouts work as expected.
 * Use `difflib` to compare actual and expected output.  Only way to check if successful is returning an empty string?
+
+## 2018-10-16
+* begin writing sample TOML config file
+* @TODO: implement parsing of config
+* @TODO: implement 'secret' test files that are removed after test is complete

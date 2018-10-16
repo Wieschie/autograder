@@ -1,0 +1,18 @@
+[build]
+# array of file, dest pairs that define files stored in .lib, and where they should be copied to
+# secret is true by default, meaning the file will be deleted after testing is complete
+required_files = [ { file = 'ComplexTests.class', dest = '<student>/out/p05', secret = true } ]
+commands = [ 'javac -cp "<lib>/*:<student>/src" -d <student>/out src/p05/Complex.java src/p05/EX13_17.java' ]
+
+[[test]]
+name = "JUnit testing"
+type = "junit"
+classname = "p05.ComplexTests"
+
+[[test]]
+name = "Diff 1"
+type = "diff"
+command = "java p05.EX13_17"
+expected = "output.txt"
+
+
