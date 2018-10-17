@@ -49,5 +49,8 @@
 
 ## 2018-10-16
 * begin writing sample TOML config file
-* @TODO: implement parsing of config
 * @TODO: implement 'secret' test files that are removed after test is complete
+
+## 2018-10-17
+* look at [python-anyconfig](https://github.com/ssato/python-anyconfig) to handle validation of toml file
+* @TODO: implement wildcard substitution in config values
