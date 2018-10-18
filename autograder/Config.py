@@ -1,3 +1,4 @@
+import anyconfig
 import toml
 from pathlib import Path
 
@@ -60,3 +61,8 @@ class Config:
                         raise KeyError(key + " missing from diff test definition in config.toml")
             else:
                 raise KeyError("Unrecognized test type in config.toml")
+
+            # check against schema at the end: more precise, but no helpful errors
+            schema = anyconfig.load("config_schema.json")
+            anyconfig.validate(self._config_dict, schema, ac_schema_safe=False)
+

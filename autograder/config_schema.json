@@ -1,0 +1,101 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "config.toml",
+    "description": "Specification for the autograder configuration file.",
+    "type": "object",
+    "properties": {
+        "output_dir": {
+            "description": "Directory to store build and test results.",
+            "type": "string"
+        },
+        "build": {
+            "type": "object",
+            "properties": {
+                "source_dir": {
+                    "description": "Directory containing source files.",
+                    "type": "string"
+                },
+                "required_files": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "file": {
+                                "description": "Name of file.",
+                                "type": "string"
+                            },
+                            "dest": {
+                                "description": "Destination directory relative to project root.",
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "commands": {
+                    "description": "Ordered list of commands to run as build process.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "test": {
+            "type": "array",
+            "items": {
+                "anyOf": [
+                    {
+                        "description": "JUnit test configuration.",
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "description": "Name of test; used when logging results.",
+                                "type": "string"
+                            },
+                            "type": {
+                                "description": "Type of test to run.",
+                                "type": "string",
+                                "enum": [ "junit", "diff" ]
+                            },
+                            "classname": {
+                                "description": "JUnit test class to run.",
+                                "type": "string"
+                            }
+                        },
+                        "required": [ "name", "type", "classname" ]
+                    },
+                    {
+                        "description": "Diff test configuration",
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "description": "Name of test; used when logging results.",
+                                "type": "string"
+                            },
+                            "type": {
+                                "description": "Type of test to run.",
+                                "type": "string",
+                                "enum": [ "junit", "diff" ]
+                            },
+                            "command": {
+                                "description": "Command to run project.",
+                                "type": "string"
+                            },
+                            "input": {
+                                "description": "Input to feed to STDIN of command.",
+                                "type": "string"
+                            },
+                            "expected": {
+                                "description": "Text file containing expected output of command.",
+                                "type": "string"
+                            }
+                        },
+                        "required": [ "name", "type", "command", "input", "expected" ]
+                    }
+                ],
+                "minItems": 1
+            }
+        }
+    },
+    "required": [ "output_dir", "test" ]
+}
