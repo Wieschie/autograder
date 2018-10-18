@@ -39,11 +39,9 @@ def diff_output(expected: TextIO, actual: str) -> str:
     Returns:
         str: diff output
     """
-    # process expected file
-    expected = expected.readlines()
-    # expected = [l.strip() for l in expected]
 
-    return ''.join(difflib.unified_diff(expected, actual.splitlines(True), fromfile="expected", tofile="actual"))
+    return ''.join(difflib.unified_diff(expected.readlines(), actual.splitlines(True),
+                                        fromfile="expected", tofile="actual"))
 
 
 def log_command(file: TextIO, ret: int, out: str, err: str):

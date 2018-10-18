@@ -55,7 +55,7 @@
                             "type": {
                                 "description": "Type of test to run.",
                                 "type": "string",
-                                "enum": [ "junit", "diff" ]
+                                "enum": [ "junit" ]
                             },
                             "classname": {
                                 "description": "JUnit test class to run.",
@@ -75,7 +75,7 @@
                             "type": {
                                 "description": "Type of test to run.",
                                 "type": "string",
-                                "enum": [ "junit", "diff" ]
+                                "enum": [ "diff" ]
                             },
                             "command": {
                                 "description": "Command to run project.",
@@ -92,9 +92,9 @@
                         },
                         "required": [ "name", "type", "command", "input", "expected" ]
                     }
-                ],
-                "minItems": 1
-            }
+                ]
+            },
+            "minItems": 1
         }
     },
     "required": [ "output_dir", "test" ]
