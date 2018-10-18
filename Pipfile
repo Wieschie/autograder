@@ -6,6 +6,8 @@ name = "pypi"
 [packages]
 click = "*"
 toml = "*"
+anyconfig = "*"
+jsonschema = "*"
 
 [dev-packages]
 pytest = "*"
