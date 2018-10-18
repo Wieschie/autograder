@@ -56,13 +56,13 @@ def proof_of_concept():
 def dispatch():
     """ parse config file and run build and tests accordingly """
 
-    master_config = ConfigParser.load_config()
+    config = Config()
     libdir = Path(".lib")
     logfile_name = datetime.now().strftime("%Y-%m-%dT%H:%M:%S") + ".log"
 
     # loop through all subdirectories (project submissions)
     for workdir in walk_subdirs("."):
-        config = ConfigParser.fill_placeholders(master_config, str(libdir), str(workdir))
+        config.replace(workdir)
         (workdir / config["output_dir"]).mkdir(exist_ok=True, parents=True)
         with open(str(workdir / logfile_name), "w") as logfile:
             if "build" in config:

@@ -35,8 +35,6 @@ class TestRunner:
     def __diff_test(self, test: Dict):
         """ runs a specified command and compares the result to the expected output """
         cmd = test["command"]
-        cmd = cmd.replace("<student>", str(self.workdir))
-        cmd = cmd.replace("<lib>", str(self.libdir))
         cmd = shlex.split(cmd)
         ret, out, err = run_command(cmd, cwd=(self.workdir / "out"), sinput=test["input"])
         self.logfile.write(" ".join(cmd) + "\n")
