@@ -26,19 +26,20 @@ class TestRunner:
     def __junit_test(self, test: Dict):
         """ runs junit test file """
         cmd = shlex.split(f'''java -jar {self.libdir}/junit-platform-console-standalone-1.3.1.jar -cp ''' +
-                          f'''"{self.workdir / "out"}"  -c {test["classname"]} --reports-dir={self.workdir / "out"} ''' +
+                          f'''"{self.outdir}"  -c {test["classname"]} --reports-dir={self.outdir} ''' +
                           "--disable-ansi-colors")
         ret, out, err = run_command(cmd, cwd=self.workdir)
         self.logfile.write(" ".join(cmd) + "\n")
         log_command(self.logfile, ret, out, err)
 
     def __diff_test(self, test: Dict):
-        """ runs a specified command and compares the result to the expected output """
+        """ runs a specified command and compares the result to the expected output  """
         cmd = test["command"]
         cmd = shlex.split(cmd)
         ret, out, err = run_command(cmd, cwd=(self.workdir / "out"), sinput=test["input"])
         self.logfile.write(" ".join(cmd) + "\n")
-        self.logfile.write(f"\nCommand exited with value {ret}\n")
+        log_command(self.logfile, ret, out, err)
+        # self.logfile.write(f"\nCommand exited with value {ret}\n")
         with open(str(self.libdir / test["expected"])) as f:
             self.logfile.write("Diff output:\n")
             self.logfile.write(diff_output(f, out))

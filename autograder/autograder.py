@@ -57,7 +57,7 @@ def dispatch():
     """ parse config file and run build and tests accordingly """
 
     config = Config()
-    libdir = Path(".lib")
+    libdir = Path(".lib").absolute()
     logfile_name = datetime.now().strftime("%Y-%m-%dT%H:%M:%S") + ".log"
 
     # loop through all subdirectories (project submissions)
@@ -70,8 +70,8 @@ def dispatch():
                 # copy files from project root to build location
                 if "required_files" in config["build"]:
                     for file in config["build"]["required_files"]:
-                        Path(Path(file["dest"]).absolute().parent).mkdir(exist_ok=True, parents=True)
-                        copyfile(str(libdir / file["file"]), file["dest"])
+                        Path(file["dest"]).mkdir(exist_ok=True, parents=True)
+                        copyfile(libdir / file["file"], file["dest"] + "/" + file["file"])
 
                 if "commands" in config["build"]:
                     for command in config["build"]["commands"]:
@@ -81,7 +81,7 @@ def dispatch():
                         log_command(logfile, ret, out, err)
 
             # loop through and run all tests
-            test_runner = TestRunner(logfile, libdir, workdir, workdir / config["output_dir"], config["test"])
+            test_runner = TestRunner(logfile, libdir, workdir, config["output_dir"], config["test"])
             test_runner.run_all()
 
 

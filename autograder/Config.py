@@ -9,12 +9,15 @@ class Config:
         self._config_dict = dict()
         self._load_config()
 
+    def __contains__(self, item):
+        return item in self._config_dict
+
     def __getitem__(self, item):
         return self._config_dict[item]
 
-    def replace(self, working_directory: Path):
+    def replace(self, student_dir: Path):
         """ replace placeholder values """
-        tmp = self._config_str.replace("<student>", str(working_directory))
+        tmp = self._config_str.replace("<student>", str(student_dir))
         self._config_dict = toml.loads(tmp)
 
     def _load_config(self):
@@ -23,27 +26,26 @@ class Config:
             with open("config.toml", "r") as f:
                 self._config_str = f.read()
                 self._config_dict = toml.loads(self._config_str)
-                self._validate_config(self._config_dict)
+                self._validate_config()
         except FileNotFoundError:
             print("No config file found.  Are you in the root directory of a project?")
             exit(1)
 
-    @staticmethod
-    def _validate_config(config: dict):
-        if "output_dir" not in config:
+    def _validate_config(self):
+        if "output_dir" not in self._config_dict:
             raise KeyError("output_dir missing in config.toml")
 
-        if "build" in config:
-            if "required_files" in config["build"]:
-                for file in config["build"]["required_files"]:
+        if "build" in self._config_dict:
+            if "required_files" in self._config_dict["build"]:
+                for file in self._config_dict["build"]["required_files"]:
                     for key in ["file", "dest"]:
                         if key not in file:
                             raise KeyError(key + " missing from required_files in config.toml")
 
-        if "test" not in config:
+        if "test" not in self._config_dict:
             raise KeyError("No tests defined in config.toml")
 
-        for t in config["test"]:
+        for t in self._config_dict["test"]:
             for key in ["name", "type"]:
                 if key not in t:
                     raise KeyError(key + " missing from test definition in config.toml")
