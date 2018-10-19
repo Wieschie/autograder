@@ -21,7 +21,7 @@ def dispatch():
         exit(1)
 
     libdir = Path(".lib").absolute()
-    logfile_name = datetime.now().strftime("%Y-%m-%dT%H:%M:%S") + ".log"
+    logfile_name = datetime.now().strftime("autograder_%Y-%m-%dT%H:%M:%S") + ".log"
 
     # loop through all subdirectories (project submissions)
     for workdir in walk_subdirs("."):
@@ -48,5 +48,4 @@ def dispatch():
 
 
 if __name__ == "__main__":
-    # proof_of_concept()
     dispatch()

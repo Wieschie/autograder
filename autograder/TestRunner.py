@@ -1,3 +1,8 @@
+"""
+Handles actual execution of defined tests.
+"""
+
+
 import shlex
 from typing import Dict
 

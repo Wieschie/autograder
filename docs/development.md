@@ -53,12 +53,16 @@
 
 ## 2018-10-17
 * look at [python-anyconfig](https://github.com/ssato/python-anyconfig) to handle validation of toml file
-* @TODO: implement wildcard substitution in config values
 
 ## 2018-10-18
 * Rewrote config class to act as a shim for config dictionary
   * goal here is to seamlessly handle substitution of placeholder values
   * Not sure if those placeholders are even necessary - can't everything be handled by using relative paths from working directory?
 * wrote JSON schema for config file
-  * Works for validation, but errors aren't super helpful - @TODO: investigate this
-
+* Limiting resource usage is not trivial in any cross-platform manner
+  * currently need to use JobObjects on Windows: https://github.com/giampaolo/psutil/issues/1149
+  * can use rlimits for Unix processes: https://docs.python.org/3/library/resource.html
+  * https://github.com/Submitty/Submitty/blob/master/grading/default_config.h
+* Using @DisplayName to export point values for individual JUnit tests to log:
+  * @TODO: Next step is parsing JUnit logs
+  
