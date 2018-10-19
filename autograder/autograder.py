@@ -2,8 +2,8 @@
 Command line utility to launch automatic grading of programming assignments
 """
 
-import click
 from datetime import datetime
+from jsonschema import ValidationError
 import shlex
 from shutil import copyfile
 
@@ -14,8 +14,12 @@ from utils import *
 
 def dispatch():
     """ parse config file and run build and tests accordingly """
+    try:
+        config = Config()
+    except (FileNotFoundError, ValidationError) as e:
+        print(e.message)
+        exit(1)
 
-    config = Config()
     libdir = Path(".lib").absolute()
     logfile_name = datetime.now().strftime("%Y-%m-%dT%H:%M:%S") + ".log"
 

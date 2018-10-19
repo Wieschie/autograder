@@ -35,14 +35,11 @@ class Config:
                 self._config_dict = toml.loads(self._config_str)
                 self._validate_config()
         except FileNotFoundError:
-            print("No config file found.  Are you in the root directory of a project?")
-            exit(1)
+            raise FileNotFoundError("No config file found.  Are you in the root directory of a project?")
 
     def _validate_config(self):
             schema = anyconfig.load("config_schema.json")
             try:
                 anyconfig.validate(self._config_dict, schema, ac_schema_safe=False)
             except ValidationError as e:
-                print(f"Invalid config file:\n{e.message}")
-                exit(1)
-
+                raise ValidationError(f"Invalid config file:\n{e.message}")
