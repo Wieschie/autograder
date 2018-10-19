@@ -1,4 +1,10 @@
+""""
+Handles interaction with config.toml
+"""
+
+
 import anyconfig
+from jsonschema import ValidationError
 import toml
 from pathlib import Path
 
@@ -33,36 +39,10 @@ class Config:
             exit(1)
 
     def _validate_config(self):
-        if "output_dir" not in self._config_dict:
-            raise KeyError("output_dir missing in config.toml")
-
-        if "build" in self._config_dict:
-            if "required_files" in self._config_dict["build"]:
-                for file in self._config_dict["build"]["required_files"]:
-                    for key in ["file", "dest"]:
-                        if key not in file:
-                            raise KeyError(key + " missing from required_files in config.toml")
-
-        if "test" not in self._config_dict:
-            raise KeyError("No tests defined in config.toml")
-
-        for t in self._config_dict["test"]:
-            for key in ["name", "type"]:
-                if key not in t:
-                    raise KeyError(key + " missing from test definition in config.toml")
-
-            if t["type"] == "junit":
-                if "classname" not in t:
-                    raise KeyError("classname missing from junit test definition in config.toml")
-
-            elif t["type"] == "diff":
-                for key in ["command", "input", "expected"]:
-                    if key not in t:
-                        raise KeyError(key + " missing from diff test definition in config.toml")
-            else:
-                raise KeyError("Unrecognized test type in config.toml")
-
-            # check against schema at the end: more precise, but no helpful errors
             schema = anyconfig.load("config_schema.json")
-            anyconfig.validate(self._config_dict, schema, ac_schema_safe=False)
+            try:
+                anyconfig.validate(self._config_dict, schema, ac_schema_safe=False)
+            except ValidationError as e:
+                print(f"Invalid config file:\n{e.message}")
+                exit(1)
 
