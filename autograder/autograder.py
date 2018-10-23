@@ -15,7 +15,7 @@ from utils import *
 def dispatch():
     """ parse config file and run build and tests accordingly """
     try:
-        config = Config()
+        config = Config("config.toml")
     except (FileNotFoundError, ValidationError) as e:
         print(e.message)
         exit(1)
@@ -25,6 +25,8 @@ def dispatch():
 
     # loop through all subdirectories (project submissions)
     for workdir in walk_subdirs("."):
+        print(f"========== Grading {workdir.stem} ==========")
+
         (workdir / config["output_dir"]).mkdir(exist_ok=True, parents=True)
         with open(str(workdir / logfile_name), "w") as logfile:
             if "build" in config:

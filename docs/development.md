@@ -65,4 +65,6 @@
   * https://github.com/Submitty/Submitty/blob/master/grading/default_config.h
 * Using @DisplayName to export point values for individual JUnit tests to log:
   * @TODO: Next step is parsing JUnit logs
-  
+
+## 2018-10-22
+

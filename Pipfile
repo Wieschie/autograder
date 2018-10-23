@@ -8,6 +8,8 @@ click = "*"
 toml = "*"
 anyconfig = "*"
 jsonschema = "*"
+junitparser = "*"
+docx-mailmerge = "*"
 
 [dev-packages]
 pytest = "*"
