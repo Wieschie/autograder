@@ -2,12 +2,13 @@
 Command line utility to launch automatic grading of programming assignments
 """
 
+import shlex
 from datetime import datetime
 from jsonschema import ValidationError
-import shlex
 from shutil import copyfile
 
 from Config import Config
+from TestResult import TestResult
 from TestRunner import TestRunner
 from utils import *
 
@@ -30,7 +31,7 @@ def dispatch():
         (workdir / config["output_dir"]).mkdir(exist_ok=True, parents=True)
         with open(str(workdir / logfile_name), "w") as logfile:
             if "build" in config:
-                logfile.write(box_text("Build Step"))
+                logfile.write(box_text("Build Step") + "\n")
                 # copy files from project root to build location
                 if "required_files" in config["build"]:
                     for file in config["build"]["required_files"]:
@@ -39,14 +40,15 @@ def dispatch():
 
                 if "commands" in config["build"]:
                     for command in config["build"]["commands"]:
+                        br = TestResult(cmd=command)
                         command = shlex.split(command)
-                        ret, out, err = run_command(command, cwd=workdir)
-                        logfile.write(" ".join(command) + "\n")
-                        log_command(logfile, ret, out, err)
+                        br.ret, br.stdout, br.stderr = run_command(command, cwd=workdir)
+                        logfile.write(str(br))
 
             # loop through and run all tests
             test_runner = TestRunner(logfile, libdir, workdir, config["output_dir"], config["test"])
             test_runner.run_all()
+            test_runner.log()
 
 
 if __name__ == "__main__":

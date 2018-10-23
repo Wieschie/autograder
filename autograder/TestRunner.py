@@ -6,6 +6,7 @@ Handles actual execution of defined tests.
 import shlex
 from typing import Dict
 
+from TestResult import TestResult, DiffTestResult
 from utils import *
 
 
@@ -17,10 +18,10 @@ class TestRunner:
         self.workdir: Path = workdir
         self.outdir: Path = outdir
         self.tests: List = tests
+        self.results: List[TestResult] = []
 
     def run_all(self):
         for t in self.tests:
-            self.logfile.write(box_text(t["name"]))
             if t["type"] == "junit":
                 self.__junit_test(t)
             elif t["type"] == "diff":
@@ -28,23 +29,27 @@ class TestRunner:
             else:
                 raise KeyError(f"Unrecognized test type {t['type']}")
 
+    def log(self):
+        for tr in self.results:
+            self.logfile.write(str(tr))
+
     def __junit_test(self, test: Dict):
         """ runs junit test file """
+        tr = TestResult(test["name"])
         cmd = shlex.split(f'''java -jar {self.libdir}/junit-platform-console-standalone-1.3.1.jar -cp ''' +
                           f'''"{self.outdir}"  -c {test["classname"]} --reports-dir={self.outdir} ''' +
                           "--disable-ansi-colors")
-        ret, out, err = run_command(cmd, cwd=self.workdir)
-        self.logfile.write(" ".join(cmd) + "\n")
-        log_command(self.logfile, ret, out, err)
+        tr.ret, tr.stdout, tr.stderr = run_command(cmd, cwd=self.workdir)
+        tr.cmd = " ".join(cmd) + "\n"
+        self.results.append(tr)
 
     def __diff_test(self, test: Dict):
         """ runs a specified command and compares the result to the expected output  """
-        cmd = test["command"]
-        cmd = shlex.split(cmd)
-        ret, out, err = run_command(cmd, cwd=(self.workdir / "out"), sinput=test["input"], timeout=test.get("timeout"))
-        self.logfile.write(" ".join(cmd) + "\n")
-        log_command(self.logfile, ret, out, err)
-        # self.logfile.write(f"\nCommand exited with value {ret}\n")
+        tr = DiffTestResult(test["name"])
+        tr.cmd = test["command"]
+        cmd = shlex.split(tr.cmd)
+        tr.ret, tr.stdout, tr.stderr = run_command(cmd, cwd=(self.workdir / "out"), sinput=test["input"],
+                                                   timeout=test.get("timeout"))
         with open(str(self.libdir / test["expected"])) as f:
-            self.logfile.write("Diff output:\n")
-            self.logfile.write(diff_output(f, out))
+            tr.diffout = diff_output(f, tr.stdout)
+        self.results.append(tr)

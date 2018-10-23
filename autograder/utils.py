@@ -2,11 +2,11 @@
 Utility functions for autograder
 """
 
+import sys
 
 import difflib
-from pathlib import Path
 import subprocess as sp
-import sys
+from pathlib import Path
 from typing import List, TextIO
 
 
@@ -18,11 +18,11 @@ def box_text(text: str) -> str:
         text: original content (should be 80 characters or less)
 
     Returns:
-        A four-line string.  Unicode box with content centered and a newline at the end.
+        A three-line string.  Unicode box with content centered.
     """
     top = "┌" + '─' * (len(text) + 2) + '┐'
     bot = '└' + '─' * (len(text) + 2) + '┘'
-    return top + "\n│ " + text + " │\n" + bot + "\n"
+    return top + "\n│ " + text + " │\n" + bot
 
 
 def diff_output(expected: TextIO, actual: str) -> str:
