@@ -9,9 +9,6 @@ import subprocess as sp
 import sys
 from typing import List, TextIO
 
-# timeout of commands in seconds
-TIMEOUT = 10
-
 
 def box_text(text: str) -> str:
     """
@@ -57,7 +54,7 @@ def print_command(ret: int, out: str, err: str):
     log_command(sys.stdout, ret, out, err)
 
 
-def run_command(cmd: List[str], cwd: Path = None, sinput: str = None) -> (int, str, str):
+def run_command(cmd: List[str], cwd: Path = None, sinput: str = None, timeout: float = None) -> (int, str, str):
     """
     Runs a given command, saving output
 
@@ -65,6 +62,7 @@ def run_command(cmd: List[str], cwd: Path = None, sinput: str = None) -> (int, s
         cmd: Command and arguments to run
         cwd: Working directory to use
         sinput: text input to pipe to process
+        timeout: seconds that command is allowed to run before being killed
 
     Returns:
         - return value of process, or -1 if timed out
@@ -75,7 +73,7 @@ def run_command(cmd: List[str], cwd: Path = None, sinput: str = None) -> (int, s
     try:
         if sinput is not None:
             sinput = sinput.encode('utf-8')
-        out, err = proc.communicate(sinput, timeout=TIMEOUT)
+        out, err = proc.communicate(sinput, timeout=timeout)
         return_value = proc.wait()
     except sp.TimeoutExpired:
         proc.kill()

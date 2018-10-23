@@ -77,6 +77,10 @@
                                 "type": "string",
                                 "enum": [ "diff" ]
                             },
+                            "points": {
+                                "description": "Point value assigned to test.",
+                                "type": "number"
+                            },
                             "command": {
                                 "description": "Command to run project.",
                                 "type": "string"
@@ -88,6 +92,10 @@
                             "expected": {
                                 "description": "Text file containing expected output of command.",
                                 "type": "string"
+                            },
+                            "timeout": {
+                                "description": "Time in decimal seconds that command is allowed to run before being killed.",
+                                "type": "number"
                             }
                         },
                         "required": [ "name", "type", "command", "input", "expected" ]

@@ -41,7 +41,7 @@ class TestRunner:
         """ runs a specified command and compares the result to the expected output  """
         cmd = test["command"]
         cmd = shlex.split(cmd)
-        ret, out, err = run_command(cmd, cwd=(self.workdir / "out"), sinput=test["input"])
+        ret, out, err = run_command(cmd, cwd=(self.workdir / "out"), sinput=test["input"], timeout=test.get("timeout"))
         self.logfile.write(" ".join(cmd) + "\n")
         log_command(self.logfile, ret, out, err)
         # self.logfile.write(f"\nCommand exited with value {ret}\n")
