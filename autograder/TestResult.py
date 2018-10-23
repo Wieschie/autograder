@@ -1,11 +1,10 @@
-"""
-Holds results of test execution
-"""
-
 from utils import box_text
 
 
 class TestResult:
+    """
+    Holds results of test execution, and handles formatting in output.
+    """
 
     def __init__(self, name: str = None, cmd: str = None, ret: int = None, stdout: str = None, stderr: str = None,
                  points: float = None, maxpoints: float = None):

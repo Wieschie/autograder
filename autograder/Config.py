@@ -1,17 +1,15 @@
-""""
-Handles interaction with config.toml
-"""
-
-
 import anyconfig
 from jsonschema import ValidationError
 import toml
-from pathlib import Path
 
 
 class Config:
+    """
+    Handles interaction with TOML configuration.
+    """
 
-    def __init__(self, filename):
+    def __init__(self, filename: str):
+        """ Loads and parses config from file """
         self.__config_dict = dict()
         self.__load_config(filename)
 
@@ -22,7 +20,7 @@ class Config:
         return self.__config_dict[item]
 
     def __load_config(self, filename):
-        """ loads config.toml from working directory and attempts to validate it with some simple rules"""
+        """ Loads a .toml config file """
         try:
             self.__config_dict = toml.load(filename)
         except FileNotFoundError:
@@ -31,6 +29,7 @@ class Config:
         self.__validate_config()
 
     def __validate_config(self):
+        """ Validates config using a json schema """
         schema = anyconfig.load("config_schema.json")
         try:
             anyconfig.validate(self.__config_dict, schema, ac_schema_safe=False)

@@ -31,6 +31,7 @@ release = '0.3.0'
 
 # -- General configuration ---------------------------------------------------
 
+autoclass_content = 'both'
 # If your documentation needs a minimal Sphinx version, state it here.
 #
 # needs_sphinx = '1.0'
@@ -76,7 +77,6 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = None
-
 
 # -- Options for HTML output -------------------------------------------------
 

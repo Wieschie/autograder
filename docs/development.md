@@ -67,4 +67,11 @@
   * @TODO: Next step is parsing JUnit logs
 
 ## 2018-10-22
+* `junit.py` parses both junit xml files and extracts point values
 
+## 2018-10-23
+* Not sure about creating docx files: options are docx-mailmerge and docxtpl
+  * just add an option to export results in csv to allow a mail merge later?
+* Write `TestResult` to handle tests instead of logging directly
+* @TODO: Handle point values in Results
+* @TODO: Handle parsed JUnit results
