@@ -37,6 +37,8 @@ def diff_output(expected: TextIO, actual: str) -> str:
         str: diff output
     """
 
+    # files read in are converted to "universal" newlines, so do the same for captured output
+    actual = actual.replace("\r\n", "\n")
     return ''.join(difflib.unified_diff(expected.readlines(), actual.splitlines(True),
                                         fromfile="expected", tofile="actual"))
 
