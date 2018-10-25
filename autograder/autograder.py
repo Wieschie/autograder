@@ -22,14 +22,14 @@ def dispatch():
         exit(1)
 
     libdir = Path(".lib").absolute()
-    logfile_name = datetime.now().strftime("autograder_%Y-%m-%dT%H:%M:%S") + ".log"
+    logfile_name = datetime.now().strftime("autograder_%Y-%m-%dT%H-%M-%S") + ".log"
 
     # loop through all subdirectories (project submissions)
     for workdir in walk_subdirs("."):
         print(f"========== Grading {workdir.stem} ==========")
 
         (workdir / config["output_dir"]).mkdir(exist_ok=True, parents=True)
-        with open(str(workdir / logfile_name), "w") as logfile:
+        with (workdir / logfile_name).open("w", encoding="utf-8") as logfile:
             if "build" in config:
                 logfile.write(box_text("Build Step") + "\n")
                 # copy files from project root to build location
