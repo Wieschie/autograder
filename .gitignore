@@ -121,3 +121,6 @@ dmypy.json
 *.temp
 *#*
 *.html
+
+# symlinks for weird Sphinx markdown workaround
+link_to*

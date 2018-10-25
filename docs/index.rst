@@ -2,11 +2,12 @@ Welcome to Autograder's documentation!
 ======================================
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: Contents:
 
-   development.md
-
+   README <link_to_readme>
+   development
+   Internal Documentation <code>
 
 Indices and tables
 ==================

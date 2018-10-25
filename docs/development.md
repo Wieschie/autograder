@@ -79,4 +79,3 @@
 
 ## 2018-10-24
 * dump results in human readable txt
-
