@@ -61,6 +61,7 @@
 * wrote JSON schema for config file
 * Limiting resource usage is not trivial in any cross-platform manner
   * currently need to use JobObjects on Windows: https://github.com/giampaolo/psutil/issues/1149
+    * https://mail.python.org/pipermail/python-ideas/2017-October/047473.html
   * can use rlimits for Unix processes: https://docs.python.org/3/library/resource.html
   * https://github.com/Submitty/Submitty/blob/master/grading/default_config.h
 * Using @DisplayName to export point values for individual JUnit tests to log:
@@ -75,3 +76,7 @@
 * Write `TestResult` to handle tests instead of logging directly
 * @TODO: Handle point values in Results
 * @TODO: Handle parsed JUnit results
+
+## 2018-10-24
+* dump results in human readable txt
+
