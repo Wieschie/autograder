@@ -4,6 +4,14 @@
     "description": "Specification for the autograder configuration file.",
     "type": "object",
     "properties": {
+        "memory_limit": {
+            "description" : "Maximum per-process memory usage allowed, in bytes.",
+            "type": "number"
+        },
+        "process_limit": {
+            "description" : "Total number of processes commands are allowed to spawn.",
+            "type": "number"
+        },
         "output_dir": {
             "description": "Directory to store build and test results.",
             "type": "string"

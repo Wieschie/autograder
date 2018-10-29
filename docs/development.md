@@ -79,3 +79,12 @@
 
 ## 2018-10-24
 * dump results in human readable txt
+
+## 2018-10-25
+* current plan: assign main process to Win32 JobObject
+  * set limits before spawning test processes (maybe set some limits before building?)
+
+## 2018-10-28
+* For limiting file usage on windows: can't seem to limit open file handles.
+  * try setting a notification limit on bytes read / wrote, then kill process if it increments?
+  

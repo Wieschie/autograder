@@ -37,7 +37,7 @@ class TestRunner:
         tr = TestResult(test["name"])
         cmd = shlex.split(f'''java -jar {self.libdir / "junit-platform-console-standalone-1.3.1.jar"} -cp ''' +
                           f'''"{self.outdir}"  -c {test["classname"]} --reports-dir={self.outdir} ''' +
-                          "--disable-ansi-colors", posix="win" not in sys.platform)
+                          "--disable-ansi-colors", posix=("win" not in sys.platform))
         tr.ret, tr.stdout, tr.stderr = run_command(cmd, cwd=self.workdir)
         tr.cmd = " ".join(cmd) + "\n"
         self.results.append(tr)
@@ -48,7 +48,8 @@ class TestRunner:
         tr.cmd = test["command"]
         cmd = shlex.split(tr.cmd)
         tr.ret, tr.stdout, tr.stderr = run_command(cmd, cwd=(self.workdir / "out"), sinput=test["input"],
-                                                   timeout=test.get("timeout"))
+                                                   timeout=test.get("timeout"), memory_limit=test.get("memory_limit"),
+                                                   process_limit=test.get("process_limit"))
         with open(str(self.libdir / test["expected"])) as f:
             tr.diffout = diff_output(f, tr.stdout)
         self.results.append(tr)
