@@ -10,7 +10,7 @@ from enum import Enum
 from pathlib import Path
 from typing import List, TextIO
 
-from limits import limit
+from posix_limit import posix_limit
 
 
 def box_text(text: str) -> str:
@@ -92,7 +92,7 @@ def run_command(cmd: List[str], cwd: Path = None, sinput: str = None, timeout: f
 
     # set up POSIX process limits
     if memory_limit or process_limit:
-        preexec = limit(memory_limit, process_limit)
+        def preexec(): posix_limit(memory_limit, process_limit)
     else:
         preexec = None
 

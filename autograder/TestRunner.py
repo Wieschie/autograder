@@ -39,7 +39,7 @@ class TestRunner:
                           f'''"{self.outdir}"  -c {test["classname"]} --reports-dir={self.outdir} ''' +
                           "--disable-ansi-colors", posix=("win" not in sys.platform))
         tr.ret, tr.stdout, tr.stderr = run_command(cmd, cwd=self.workdir)
-        tr.cmd = " ".join(cmd) + "\n"
+        tr.cmd = " ".join(cmd)
         self.results.append(tr)
 
     def __diff_test(self, test):
