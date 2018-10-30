@@ -18,6 +18,7 @@ bumpversion = "*"
 sphinx = "*"
 recommonmark = "*"
 sphinx-autodoc-typehints = "*"
+sphinx-jsonschema = "*"
 
 [requires]
 python_version = "3.7"

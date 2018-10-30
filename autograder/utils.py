@@ -10,8 +10,10 @@ from enum import Enum
 from pathlib import Path
 from typing import List, TextIO
 
-from posix_limit import posix_limit
-from win32_limit import win32_limit
+if "win" in sys.platform:
+    from win32_limit import win32_limit
+else:
+    from posix_limit import posix_limit
 
 
 def box_text(text: str) -> str:
