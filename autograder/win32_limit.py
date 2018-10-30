@@ -7,9 +7,22 @@ import time
 import sys
 
 
-def win32_limit():
-    job = CreateJobObject(None, "autograder-job")
-    AssignProcessToJobObject(job, GetCurrentProcess())
+__job = None
+
+
+def win32_limit(max_memory: int = None, max_processes: int = None):
+    """
+    Sets per-process limits on Windows systems.
+
+    WARNING: Currently creates a single job, so affects all spawned processes.
+    """
+    # check if script has already been added to the job
+    global __job
+    if IsProcessInJob(GetCurrentProcess(), __job):
+        return
+
+    __job = CreateJobObject(None, "autograder-job")
+    AssignProcessToJobObject(__job, GetCurrentProcess())
 
     # Get current limit info
     limits = QueryInformationJobObject(None, JobObjectBasicLimitInformation)
@@ -22,7 +35,7 @@ def win32_limit():
     limits["MaximumWorkingSetSize"] = 10 ** 20 * 32
 
     # set the limits
-    SetInformationJobObject(job, JobObjectBasicLimitInformation, limits)
+    SetInformationJobObject(__job, JobObjectBasicLimitInformation, limits)
 
 
 def parent():

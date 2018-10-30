@@ -11,6 +11,7 @@ from pathlib import Path
 from typing import List, TextIO
 
 from posix_limit import posix_limit
+from win32_limit import win32_limit
 
 
 def box_text(text: str) -> str:
@@ -90,11 +91,13 @@ def run_command(cmd: List[str], cwd: Path = None, sinput: str = None, timeout: f
         - STDERR of process
     """
 
-    # set up POSIX process limits
+    # set up process limits
+    preexec = None
     if memory_limit or process_limit:
-        def preexec(): posix_limit(memory_limit, process_limit)
-    else:
-        preexec = None
+        if "win" not in sys.platform:
+            def preexec(): posix_limit(memory_limit, process_limit)
+        else:
+            win32_limit()
 
     proc = sp.Popen(cmd, cwd=cwd, stdin=sp.PIPE, stdout=sp.PIPE, stderr=sp.PIPE, preexec_fn=preexec)
     try:
