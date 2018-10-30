@@ -2,6 +2,84 @@
     "$schema": "http://json-schema.org/draft-07/schema#",
     "title": "config.toml",
     "description": "Specification for the autograder configuration file.",
+
+    "definitions": {
+        "basetest": {
+            "description": "Base test schema (to be extended)",
+            "type": "object",
+            "properties": {
+                "name": {
+                    "description": "Name of test; used when logging results.",
+                    "type": "string"
+                },
+                "type": {
+                    "description": "Type of test to run.",
+                    "type": "string",
+                    "enum": [ "junit", "diff" ]
+                }
+            }
+        },
+        "junittest": {
+            "description": "JUnit test configuration.",
+            "type": "object",
+            "allOf": [
+                { "$ref": "#/definitions/basetest" },
+                {
+                    "properties": {
+                        "type": {
+                            "description": "Type of test to run.",
+                            "type": "string",
+                            "enum": [ "junit" ]
+                        },
+                        "classname": {
+                            "description": "JUnit test class to run.",
+                            "type": "string"
+                        }
+                    },
+                    "required": [ "classname" ]
+                }
+            ]
+
+        },
+        "difftest": {
+            "description": "Diff test configuration",
+            "type": "object",
+            "allOf": [
+                { "$ref": "#/definitions/basetest" },
+                {
+                    "properties": {
+                        "type": {
+                            "description": "Type of test to run.",
+                            "type": "string",
+                            "enum": [ "diff" ]
+                        },
+                        "points": {
+                            "description": "Point value assigned to test.",
+                            "type": "number"
+                        },
+                        "command": {
+                            "description": "Command to run project.",
+                            "type": "string"
+                        },
+                        "input": {
+                            "description": "Input to feed to STDIN of command.",
+                            "type": "string"
+                        },
+                        "expected": {
+                            "description": "Text file containing expected output of command.",
+                            "type": "string"
+                        },
+                        "timeout": {
+                            "description": "Time in decimal seconds that command is allowed to run before being killed.",
+                            "type": "number"
+                        }
+                    },
+                    "required": [ "name", "type", "command", "input", "expected" ]
+                }
+            ]
+        }
+    },
+
     "type": "object",
     "properties": {
         "memory_limit": {
@@ -52,62 +130,8 @@
             "type": "array",
             "items": {
                 "anyOf": [
-                    {
-                        "description": "JUnit test configuration.",
-                        "type": "object",
-                        "properties": {
-                            "name": {
-                                "description": "Name of test; used when logging results.",
-                                "type": "string"
-                            },
-                            "type": {
-                                "description": "Type of test to run.",
-                                "type": "string",
-                                "enum": [ "junit" ]
-                            },
-                            "classname": {
-                                "description": "JUnit test class to run.",
-                                "type": "string"
-                            }
-                        },
-                        "required": [ "name", "type", "classname" ]
-                    },
-                    {
-                        "description": "Diff test configuration",
-                        "type": "object",
-                        "properties": {
-                            "name": {
-                                "description": "Name of test; used when logging results.",
-                                "type": "string"
-                            },
-                            "type": {
-                                "description": "Type of test to run.",
-                                "type": "string",
-                                "enum": [ "diff" ]
-                            },
-                            "points": {
-                                "description": "Point value assigned to test.",
-                                "type": "number"
-                            },
-                            "command": {
-                                "description": "Command to run project.",
-                                "type": "string"
-                            },
-                            "input": {
-                                "description": "Input to feed to STDIN of command.",
-                                "type": "string"
-                            },
-                            "expected": {
-                                "description": "Text file containing expected output of command.",
-                                "type": "string"
-                            },
-                            "timeout": {
-                                "description": "Time in decimal seconds that command is allowed to run before being killed.",
-                                "type": "number"
-                            }
-                        },
-                        "required": [ "name", "type", "command", "input", "expected" ]
-                    }
+                    { "$ref": "#/definitions/junittest" },
+                    { "$ref": "#/definitions/difftest" }
                 ]
             },
             "minItems": 1
