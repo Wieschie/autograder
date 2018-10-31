@@ -19,6 +19,7 @@ sphinx = "*"
 recommonmark = "*"
 sphinx-autodoc-typehints = "*"
 sphinx-jsonschema = "*"
+numpy = "*"
 
 [requires]
 python_version = "3.7"

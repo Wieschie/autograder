@@ -9,12 +9,15 @@ class TestRunner:
     Handles actual execution of defined tests.
     """
 
-    def __init__(self, logfile: TextIO, libdir: Path, workdir: Path, outdir: Path, tests: List):
+    def __init__(self, logfile: TextIO, libdir: Path, workdir: Path, outdir: Path, tests: List,
+                 memory_limit: int = None, process_limit: int = None):
         self.logfile: TextIO = logfile
         self.libdir: Path = libdir
         self.workdir: Path = workdir
         self.outdir: Path = outdir
         self.tests: List = tests  #: list of tests directly from config dictionary
+        self.memory_limit = memory_limit
+        self.process_limit = process_limit
         self.results: List[TestResult] = []
 
     def run_all(self):
@@ -48,8 +51,8 @@ class TestRunner:
         tr.cmd = test["command"]
         cmd = shlex.split(tr.cmd)
         tr.ret, tr.stdout, tr.stderr = run_command(cmd, cwd=(self.workdir / "out"), sinput=test["input"],
-                                                   timeout=test.get("timeout"), memory_limit=test.get("memory_limit"),
-                                                   process_limit=test.get("process_limit"))
+                                                   timeout=test.get("timeout"), memory_limit=self.memory_limit,
+                                                   process_limit=self.process_limit)
         with open(str(self.libdir / test["expected"])) as f:
             tr.diffout = diff_output(f, tr.stdout)
         self.results.append(tr)

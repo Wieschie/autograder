@@ -46,7 +46,8 @@ def dispatch():
                         logfile.write(str(br))
 
             # loop through and run all tests
-            test_runner = TestRunner(logfile, libdir, workdir, config["output_dir"], config["test"])
+            test_runner = TestRunner(logfile, libdir, workdir, config["output_dir"], config["test"],
+                                     config.get("memory_limit"), config.get("process_limit"))
             test_runner.run_all()
             test_runner.log()
 

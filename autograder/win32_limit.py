@@ -5,6 +5,7 @@ import os
 import subprocess
 import time
 import sys
+import numpy
 
 
 __job = None
@@ -18,31 +19,37 @@ def win32_limit(max_memory: int = None, max_processes: int = None):
     """
     # check if script has already been added to the job
     global __job
-    if IsProcessInJob(GetCurrentProcess(), __job):
+    # if IsProcessInJob(GetCurrentProcess(), __job):
+    if __job:
         return
 
-    __job = CreateJobObject(None, "autograder-job")
+    __job = CreateJobObject(None, "")
     AssignProcessToJobObject(__job, GetCurrentProcess())
 
     # Get current limit info
-    limits = QueryInformationJobObject(None, JobObjectBasicLimitInformation)
+    limits = QueryInformationJobObject(None, JobObjectExtendedLimitInformation)
 
     # modify limits
-    limit_flags = JOB_OBJECT_LIMIT_ACTIVE_PROCESS | JOB_OBJECT_LIMIT_WORKINGSET
-    limits["LimitFlags"] = limit_flags
-    limits["ActiveProcessLimit"] = 5
-    limits["MinimumWorkingSetSize"] = 10
-    limits["MaximumWorkingSetSize"] = 10 ** 20 * 32
+    limit_flags = 0 | \
+        (JOB_OBJECT_LIMIT_ACTIVE_PROCESS if max_processes else 0) | \
+        (JOB_OBJECT_LIMIT_PROCESS_MEMORY if max_memory else 0)
+    limits["BasicLimitInformation"]["LimitFlags"] = limit_flags
+    limits["BasicLimitInformation"]["ActiveProcessLimit"] = max_processes + 1 if max_processes else 0
+    limits["ProcessMemoryLimit"] = max_memory if max_memory else 0
 
     # set the limits
-    SetInformationJobObject(__job, JobObjectBasicLimitInformation, limits)
+    SetInformationJobObject(__job, JobObjectExtendedLimitInformation, limits)
+
+
+#######################################################################################################################
+# functions for testing below this line
 
 
 def parent():
     print("parent started", os.getpid())
-
-    win32_limit()
-
+    arr1 = numpy.arange(1024 * 10)
+    win32_limit(max_memory=1024 * 10)
+    arr2 = numpy.arange(1024 * 10)
     for i in range(3):
         subprocess.Popen("python win32_limit.py /child")
 

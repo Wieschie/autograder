@@ -99,7 +99,7 @@ def run_command(cmd: List[str], cwd: Path = None, sinput: str = None, timeout: f
         if "win" not in sys.platform:
             def preexec(): posix_limit(memory_limit, process_limit)
         else:
-            win32_limit()
+            win32_limit(memory_limit, process_limit)
 
     proc = sp.Popen(cmd, cwd=cwd, stdin=sp.PIPE, stdout=sp.PIPE, stderr=sp.PIPE, preexec_fn=preexec)
     try:
