@@ -18,6 +18,7 @@ def win32_limit(max_memory: int = None, max_processes: int = None):
     WARNING: Currently creates a single job, so affects all spawned processes.
     """
     # check if script has already been added to the job
+    # TODO check if necessary
     global __job
     # if IsProcessInJob(GetCurrentProcess(), __job):
     if __job:

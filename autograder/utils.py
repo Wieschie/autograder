@@ -45,8 +45,12 @@ def diff_output(expected: TextIO, actual: str) -> str:
 
     # files read in are converted to "universal" newlines, so do the same for captured output
     actual = actual.replace("\r\n", "\n")
-    return ''.join(difflib.unified_diff(expected.readlines(), actual.splitlines(True),
-                                        fromfile="expected", tofile="actual"))
+    return ''.join(difflib.unified_diff(expected.readlines(), actual.splitlines(True), fromfile="expected",
+                                        tofile="actual"))
+
+
+def libdir() -> Path:
+    return Path(sys.path[0]) / ".lib"
 
 
 def log_command(file: TextIO, ret: int, out: str, err: str):
@@ -65,7 +69,8 @@ def print_command(ret: int, out: str, err: str):
 class RunError(Enum):
     TIMEOUT = -1
     MEMORYOUT = -2
-    UNKNOWN = -3
+    SIGSEGV = -3
+    UNKNOWN = -4
 
 
 __errors = {
@@ -111,6 +116,8 @@ def run_command(cmd: List[str], cwd: Path = None, sinput: str = None, timeout: f
         proc.kill()
         out, err = proc.communicate()
         return_value = __errors.get(type(ex), RunError.UNKNOWN)
+    if "win" not in sys.platform and return_value in [-6, -11, -127]:
+        return_value = RunError.SIGSEGV
     return return_value, out.decode(), err.decode()
 
 

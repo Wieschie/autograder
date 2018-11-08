@@ -9,10 +9,9 @@ class TestRunner:
     Handles actual execution of defined tests.
     """
 
-    def __init__(self, logfile: TextIO, libdir: Path, workdir: Path, outdir: Path, tests: List,
+    def __init__(self, logfile: TextIO, workdir: Path, outdir: Path, tests: List,
                  memory_limit: int = None, process_limit: int = None):
         self.logfile: TextIO = logfile
-        self.libdir: Path = libdir
         self.workdir: Path = workdir
         self.outdir: Path = outdir
         self.tests: List = tests  #: list of tests directly from config dictionary
@@ -38,7 +37,7 @@ class TestRunner:
     def __junit_test(self, test):
         """ Runs a junit test .class file """
         tr = TestResult(test["name"])
-        cmd = shlex.split(f'''java -jar {self.libdir / "junit-platform-console-standalone-1.3.1.jar"} -cp ''' +
+        cmd = shlex.split(f'''java -jar {libdir() / "junit-platform-console-standalone-1.3.1.jar"} -cp ''' +
                           f'''"{self.outdir}"  -c {test["classname"]} --reports-dir={self.outdir} ''' +
                           "--disable-ansi-colors", posix=("win" not in sys.platform))
         tr.ret, tr.stdout, tr.stderr = run_command(cmd, cwd=self.workdir)
@@ -53,6 +52,6 @@ class TestRunner:
         tr.ret, tr.stdout, tr.stderr = run_command(cmd, cwd=(self.workdir / "out"), sinput=test["input"],
                                                    timeout=test.get("timeout"), memory_limit=self.memory_limit,
                                                    process_limit=self.process_limit)
-        with open(str(self.libdir / test["expected"])) as f:
+        with (Path(".config") / test["expected"]).open() as f:
             tr.diffout = diff_output(f, tr.stdout)
         self.results.append(tr)

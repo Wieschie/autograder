@@ -3,6 +3,7 @@ Command line utility to launch automatic grading of programming assignments
 """
 
 import shlex
+import click
 from datetime import datetime
 from jsonschema import ValidationError
 from shutil import copyfile
@@ -13,15 +14,33 @@ from TestRunner import TestRunner
 from utils import *
 
 
-def dispatch():
-    """ parse config file and run build and tests accordingly """
+@click.group()
+def cli():
+    pass
+
+
+@cli.command()
+def genconfig():
+    """ Generate a skeleton config directory """
     try:
-        config = Config("config.toml")
-    except (FileNotFoundError, ValidationError) as e:
-        print(e.message)
+        (Path(".") / ".config").mkdir()
+    except FileExistsError:
+        raise click.UsageError(".config directory already exists.")
+    copyfile(str(libdir() / "config.toml"), Path(".") / ".config")
+
+
+@cli.command()
+def runall():
+    """ Build and test all projects """
+    try:
+        config = Config(".config/config.toml", str((libdir() / "config_schema.json").absolute()))
+    except FileNotFoundError:
+        print("No config file found.  Are you in the root directory of a project?")
+        exit(1)
+    except ValidationError as e:
+        print(f"Invalid config file:\n{e.message}")
         exit(1)
 
-    libdir = Path(".lib").absolute()
     logfile_name = datetime.now().strftime("autograder_%Y-%m-%dT%H-%M-%S") + ".log"
 
     # loop through all subdirectories (project submissions)
@@ -36,7 +55,7 @@ def dispatch():
                 if "required_files" in config["build"]:
                     for file in config["build"]["required_files"]:
                         (workdir / file["dest"]).mkdir(exist_ok=True, parents=True)
-                        copyfile(libdir / file["file"], Path(workdir / file["dest"] / file["file"]))
+                        copyfile(Path(".config") / file["file"], Path(workdir / file["dest"] / file["file"]))
 
                 if "commands" in config["build"]:
                     for command in config["build"]["commands"]:
@@ -46,11 +65,11 @@ def dispatch():
                         logfile.write(str(br))
 
             # loop through and run all tests
-            test_runner = TestRunner(logfile, libdir, workdir, config["output_dir"], config["test"],
+            test_runner = TestRunner(logfile, workdir, config["output_dir"], config["test"],
                                      config.get("memory_limit"), config.get("process_limit"))
             test_runner.run_all()
             test_runner.log()
 
 
 if __name__ == "__main__":
-    dispatch()
+    cli()
