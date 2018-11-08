@@ -124,3 +124,5 @@ dmypy.json
 
 # symlinks for weird Sphinx markdown workaround
 link_to*
+
+*.out
