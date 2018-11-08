@@ -26,8 +26,8 @@ def box_text(text: str) -> str:
     Returns:
         A three-line string.  Unicode box with content centered.
     """
-    top = "┌" + '─' * (len(text) + 2) + '┐'
-    bot = '└' + '─' * (len(text) + 2) + '┘'
+    top = "┌" + "─" * (len(text) + 2) + "┐"
+    bot = "└" + "─" * (len(text) + 2) + "┘"
     return top + "\n│ " + text + " │\n" + bot
 
 
@@ -45,8 +45,14 @@ def diff_output(expected: TextIO, actual: str) -> str:
 
     # files read in are converted to "universal" newlines, so do the same for captured output
     actual = actual.replace("\r\n", "\n")
-    return ''.join(difflib.unified_diff(expected.readlines(), actual.splitlines(True), fromfile="expected",
-                                        tofile="actual"))
+    return "".join(
+        difflib.unified_diff(
+            expected.readlines(),
+            actual.splitlines(True),
+            fromfile="expected",
+            tofile="actual",
+        )
+    )
 
 
 def libdir() -> Path:
@@ -73,14 +79,17 @@ class RunError(Enum):
     UNKNOWN = -4
 
 
-__errors = {
-    sp.TimeoutExpired: RunError.TIMEOUT,
-    MemoryError: RunError.MEMORYOUT
-}
+__errors = {sp.TimeoutExpired: RunError.TIMEOUT, MemoryError: RunError.MEMORYOUT}
 
 
-def run_command(cmd: List[str], cwd: Path = None, sinput: str = None, timeout: float = None, memory_limit: int = None,
-                process_limit: int = None) -> (int, str, str):
+def run_command(
+    cmd: List[str],
+    cwd: Path = None,
+    sinput: str = None,
+    timeout: float = None,
+    memory_limit: int = None,
+    process_limit: int = None,
+) -> (int, str, str):
     """
     Runs a given command, saving output
 
@@ -102,14 +111,19 @@ def run_command(cmd: List[str], cwd: Path = None, sinput: str = None, timeout: f
     preexec = None
     if memory_limit or process_limit:
         if "win" not in sys.platform:
-            def preexec(): posix_limit(memory_limit, process_limit)
+
+            def preexec():
+                posix_limit(memory_limit, process_limit)
+
         else:
             win32_limit(memory_limit, process_limit)
 
-    proc = sp.Popen(cmd, cwd=cwd, stdin=sp.PIPE, stdout=sp.PIPE, stderr=sp.PIPE, preexec_fn=preexec)
+    proc = sp.Popen(
+        cmd, cwd=cwd, stdin=sp.PIPE, stdout=sp.PIPE, stderr=sp.PIPE, preexec_fn=preexec
+    )
     try:
         if sinput is not None:
-            sinput = sinput.encode('utf-8')
+            sinput = sinput.encode("utf-8")
         out, err = proc.communicate(sinput, timeout=timeout)
         return_value = proc.wait()
     except Exception as ex:
@@ -126,6 +140,6 @@ def walk_subdirs(directory: str) -> List[Path]:
     subdirectories = []
     for entry in Path(directory).iterdir():
         # ignore hidden directories (like .git)
-        if entry.is_dir() and entry.name[0] != '.':
+        if entry.is_dir() and entry.name[0] != ".":
             subdirectories.append(entry)
     return subdirectories

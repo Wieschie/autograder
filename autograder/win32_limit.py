@@ -31,11 +31,15 @@ def win32_limit(max_memory: int = None, max_processes: int = None):
     limits = QueryInformationJobObject(None, JobObjectExtendedLimitInformation)
 
     # modify limits
-    limit_flags = 0 | \
-        (JOB_OBJECT_LIMIT_ACTIVE_PROCESS if max_processes else 0) | \
-        (JOB_OBJECT_LIMIT_PROCESS_MEMORY if max_memory else 0)
+    limit_flags = (
+        0
+        | (JOB_OBJECT_LIMIT_ACTIVE_PROCESS if max_processes else 0)
+        | (JOB_OBJECT_LIMIT_PROCESS_MEMORY if max_memory else 0)
+    )
     limits["BasicLimitInformation"]["LimitFlags"] = limit_flags
-    limits["BasicLimitInformation"]["ActiveProcessLimit"] = max_processes + 1 if max_processes else 0
+    limits["BasicLimitInformation"]["ActiveProcessLimit"] = (
+        max_processes + 1 if max_processes else 0
+    )
     limits["ProcessMemoryLimit"] = max_memory if max_memory else 0
 
     # set the limits
@@ -68,7 +72,7 @@ def child():
     time.sleep(300)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     if "/child" in sys.argv:
         child()
     else:

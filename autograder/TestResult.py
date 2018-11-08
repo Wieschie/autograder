@@ -6,8 +6,16 @@ class TestResult:
     Holds results of test execution, and handles formatting in output.
     """
 
-    def __init__(self, name: str = None, cmd: str = None, ret: int = None, stdout: str = None, stderr: str = None,
-                 points: float = None, maxpoints: float = None):
+    def __init__(
+        self,
+        name: str = None,
+        cmd: str = None,
+        ret: int = None,
+        stdout: str = None,
+        stderr: str = None,
+        points: float = None,
+        maxpoints: float = None,
+    ):
         self.name = name
         self.cmd = cmd
         self.ret = ret
@@ -34,9 +42,17 @@ class TestResult:
 
 
 class DiffTestResult(TestResult):
-
-    def __init__(self, name: str = None, cmd: str = None, ret: int = None, stdout: str = None, stderr: str = None,
-                 points: float = None, maxpoints: float = None, diffout: str = None):
+    def __init__(
+        self,
+        name: str = None,
+        cmd: str = None,
+        ret: int = None,
+        stdout: str = None,
+        stderr: str = None,
+        points: float = None,
+        maxpoints: float = None,
+        diffout: str = None,
+    ):
         TestResult.__init__(self, name, cmd, ret, stdout, stderr, points, maxpoints)
         self.diffout = diffout
 

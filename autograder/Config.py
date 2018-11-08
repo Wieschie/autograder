@@ -29,5 +29,4 @@ class Config:
         anyconfig.validate(self.__config_dict, schema, ac_schema_safe=False)
 
     def get(self, key):
-            return self.__config_dict.get(key)
-
+        return self.__config_dict.get(key)

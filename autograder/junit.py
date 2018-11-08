@@ -7,8 +7,9 @@ points_regex = re.compile(""".*display-name:.*points:(\s*[0-9]+\.?[0-9]*).*""")
 
 
 def parse_xml(workdir: Path):
-    xml = JUnitXml.fromfile(workdir / "TEST-junit-vintage.xml") + \
-          JUnitXml.fromfile(workdir / "TEST-junit-jupiter.xml")
+    xml = JUnitXml.fromfile(workdir / "TEST-junit-vintage.xml") + JUnitXml.fromfile(
+        workdir / "TEST-junit-jupiter.xml"
+    )
 
     for suite in xml:
         for case in suite:
@@ -24,4 +25,3 @@ def parse_xml(workdir: Path):
             else:
                 output = f"{case.classname}.{case.name}"
             print(output)
-

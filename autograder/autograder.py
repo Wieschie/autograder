@@ -33,7 +33,9 @@ def genconfig():
 def runall():
     """ Build and test all projects """
     try:
-        config = Config(".config/config.toml", str((libdir() / "config_schema.json").absolute()))
+        config = Config(
+            ".config/config.toml", str((libdir() / "config_schema.json").absolute())
+        )
     except FileNotFoundError:
         print("No config file found.  Are you in the root directory of a project?")
         exit(1)
@@ -55,7 +57,10 @@ def runall():
                 if "required_files" in config["build"]:
                     for file in config["build"]["required_files"]:
                         (workdir / file["dest"]).mkdir(exist_ok=True, parents=True)
-                        copyfile(Path(".config") / file["file"], Path(workdir / file["dest"] / file["file"]))
+                        copyfile(
+                            Path(".config") / file["file"],
+                            Path(workdir / file["dest"] / file["file"]),
+                        )
 
                 if "commands" in config["build"]:
                     for command in config["build"]["commands"]:
@@ -65,8 +70,14 @@ def runall():
                         logfile.write(str(br))
 
             # loop through and run all tests
-            test_runner = TestRunner(logfile, workdir, config["output_dir"], config["test"],
-                                     config.get("memory_limit"), config.get("process_limit"))
+            test_runner = TestRunner(
+                logfile,
+                workdir,
+                config["output_dir"],
+                config["test"],
+                config.get("memory_limit"),
+                config.get("process_limit"),
+            )
             test_runner.run_all()
             test_runner.log()
 
