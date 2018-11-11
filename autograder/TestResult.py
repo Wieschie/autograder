@@ -26,7 +26,10 @@ class TestResult:
 
     def __str__(self):
         name = f"{box_text(self.name)}\n" if self.name else ""
-        s = f"{name}Points awarded: {self.points} of {self.maxpoints}\n`{self.cmd}`\nExited with code {self.ret}\n"
+        s = (
+            f"{name}Points awarded: {self.points} of {self.maxpoints}\n`{self.cmd}`\n"
+            f"Exited with code {self.ret}\n"
+        )
         if len(self.stdout) > 0:
             s += f"STDOUT:\n{self.stdout}\n"
         if len(self.stderr) > 0:

@@ -16,6 +16,7 @@ from utils import *
 
 @click.group()
 def cli():
+    """ Main entry point. """
     pass
 
 

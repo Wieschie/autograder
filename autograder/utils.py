@@ -43,7 +43,7 @@ def diff_output(expected: TextIO, actual: str) -> str:
         str: diff output
     """
 
-    # files read in are converted to "universal" newlines, so do the same for captured output
+    # files read in are converted to "universal" newlines so convert captured output too
     actual = actual.replace("\r\n", "\n")
     return "".join(
         difflib.unified_diff(
@@ -99,7 +99,8 @@ def run_command(
         sinput: text input to pipe to process
         timeout: seconds that command is allowed to run before being killed
         memory_limit: max memory in bytes of process
-        process_limit: max processes allowed to spawn (1 means that the command may run but not spawn any children)
+        process_limit: max processes allowed to spawn (1 means that the command may run
+            but not spawn any children)
 
     Returns:
         - return value of process, or -1 if timed out

@@ -46,7 +46,7 @@ def win32_limit(max_memory: int = None, max_processes: int = None):
     SetInformationJobObject(__job, JobObjectExtendedLimitInformation, limits)
 
 
-#######################################################################################################################
+########################################################################################
 # functions for testing below this line
 
 

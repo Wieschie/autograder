@@ -45,9 +45,11 @@ class TestRunner:
         """ Runs a junit test .class file """
         tr = TestResult(test["name"])
         cmd = shlex.split(
-            f"""java -jar {libdir() / "junit-platform-console-standalone-1.3.1.jar"} -cp """
-            f""""{self.outdir}"  -c {test["classname"]} --reports-dir={self.outdir} """
-            "--disable-ansi-colors",
+            (
+                f"""java -jar {libdir() / "junit-platform-console-standalone-1.3.1.jar"}"""
+                f""" -cp "{self.outdir}" -c {test["classname"]} --reports-dir="""
+                f"""{self.outdir} --disable-ansi-colors"""
+            ),
             posix=("win" not in sys.platform),
         )
         tr.ret, tr.stdout, tr.stderr = run_command(cmd, cwd=self.workdir)
