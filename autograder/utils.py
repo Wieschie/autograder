@@ -14,6 +14,8 @@ if "win" in sys.platform:
     from win32_limit import win32_limit
 else:
     from posix_limit import posix_limit
+    import pwd
+    import os
 
 
 def box_text(text: str) -> str:
@@ -112,8 +114,14 @@ def run_command(
     preexec = None
     if memory_limit or process_limit:
         if "win" not in sys.platform:
+            # run child process as separate user to allow limiting number of processes
 
             def preexec():
+                pw = pwd.getpwnam("autograder")
+                print("uid, gid = %d, %d" % (os.getuid(), os.getgid()))
+                os.setuid(pw.pw_uid)
+                os.setgid(pw.pw_gid)
+                print("uid, gid = %d, %d" % (os.getuid(), os.getgid()))
                 posix_limit(memory_limit, process_limit)
 
         else:
