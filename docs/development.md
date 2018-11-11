@@ -93,3 +93,6 @@
   * Complicates limiting the number of active processes.  Should be able to set the limit to the configured value + 1 (script is included in the job)
   * @TODO Does the junit runner spawn additional processes?  need to investigate
 * @TODO RLIMIT_NPROC applies to the user that owns the process, not just the process.  for this to work, script must be run as a separate user.
+
+## 2018-11-11
+* Add third job type, or add pre/post jobs (but then have to figure out how to redirect output?)
