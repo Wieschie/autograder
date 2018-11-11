@@ -26,16 +26,6 @@ class TestRunner:
         self.process_limit = process_limit
         self.results: List[TestResult] = []
 
-    def run_all(self):
-        """ Runs all defined tests, and stores output in `results[]` """
-        for t in self.tests:
-            if t["type"] == "junit":
-                self.__junit_test(t)
-            elif t["type"] == "diff":
-                self.__diff_test(t)
-            else:
-                raise KeyError(f"Unrecognized test type {t['type']}")
-
     def log(self):
         """ Writes full results to logfile """
         for tr in self.results:
@@ -72,3 +62,14 @@ class TestRunner:
         with (Path(".config") / test["expected"]).open() as f:
             tr.diffout = diff_output(f, tr.stdout)
         self.results.append(tr)
+
+    # test type -> test runner mapping
+    __test = {"junit": __junit_test, "diff": __diff_test}
+
+    def run_all(self):
+        """ Runs all defined tests, and stores output in `results[]` """
+        for t in self.tests:
+            try:
+                TestRunner.__test[t["type"]](self, t)
+            except KeyError as e:
+                raise KeyError(f"""Test type {t["type"]} undefined.""")
