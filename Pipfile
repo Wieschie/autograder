@@ -9,7 +9,6 @@ toml = "*"
 anyconfig = "*"
 jsonschema = "*"
 junitparser = "*"
-docx-mailmerge = "*"
 "pywin32" = "*"
 
 [dev-packages]
