@@ -3,8 +3,9 @@
 
 ## Usage
 ### Command line
-`autograder.py genconfig`: generates a `.config` directory with a skeleton `config.toml` file.
-`autograder.py runall`: runs all tests defined in `config.toml` on all projects (any subdirectories not prefixed with a `.`)
+* `autograder.py genconfig`: generates a `.config` directory with a skeleton `config.toml` file.
+* `autograder.py testall`: runs tests defined in `config.toml` on all projects (any subdirectories not prefixed with a `.`)
+* `autograder.py test DIRECTORIES`: runs tests on given list of directories
 
 ### Directory structure
 ```
