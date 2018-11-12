@@ -49,7 +49,7 @@
 
 ## 2018-10-16
 * begin writing sample TOML config file
-* @TODO: implement 'secret' test files that are removed after test is complete
+* implement 'secret' test files that are removed after test is complete
 
 ## 2018-10-17
 * look at [python-anyconfig](https://github.com/ssato/python-anyconfig) to handle validation of toml file
@@ -65,7 +65,7 @@
   * can use rlimits for Unix processes: https://docs.python.org/3/library/resource.html
   * https://github.com/Submitty/Submitty/blob/master/grading/default_config.h
 * Using @DisplayName to export point values for individual JUnit tests to log:
-  * @TODO: Next step is parsing JUnit logs
+  * Next step is parsing JUnit logs
 
 ## 2018-10-22
 * `junit.py` parses both junit xml files and extracts point values
@@ -74,8 +74,8 @@
 * Not sure about creating docx files: options are docx-mailmerge and docxtpl
   * just add an option to export results in csv to allow a mail merge later?
 * Write `TestResult` to handle tests instead of logging directly
-* @TODO: Handle point values in Results
-* @TODO: Handle parsed JUnit results
+* Handle point values in Results
+* Handle parsed JUnit results
 
 ## 2018-10-24
 * dump results in human readable txt
@@ -91,7 +91,7 @@
 ## 2018-10-30
 * JobObjects work well when associating the parent script with a single job
   * Complicates limiting the number of active processes.  Should be able to set the limit to the configured value + 1 (script is included in the job)
-  * @TODO Does the junit runner spawn additional processes?  need to investigate
+  * Java processes spawn at least one additional thread for the garbage collector on linux
 * @TODO RLIMIT_NPROC applies to the user that owns the process, not just the process.  for this to work, script must be run as a separate user.
 
 ## 2018-11-11
