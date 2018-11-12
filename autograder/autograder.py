@@ -68,7 +68,7 @@ def runall():
                         br = TestResult(cmd=command)
                         command = shlex.split(command)
                         br.ret, br.stdout, br.stderr = run_command(command, cwd=workdir)
-                        logfile.write(str(br))
+                        logfile.write(br.log())
 
             # loop through and run all tests
             test_runner = TestRunner(

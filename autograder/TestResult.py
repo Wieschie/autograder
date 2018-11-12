@@ -24,16 +24,19 @@ class TestResult:
         self.points = points
         self.maxpoints = maxpoints
 
-    def __str__(self):
+    def log(self):
         name = f"{box_text(self.name)}\n" if self.name else ""
-        s = (
-            f"{name}Points awarded: {self.points} of {self.maxpoints}\n`{self.cmd}`\n"
-            f"Exited with code {self.ret}\n"
+        points = (
+            f"Points awarded: {self.points:1g} of {self.maxpoints:1g}\n"
+            if self.maxpoints
+            else ""
         )
-        if len(self.stdout) > 0:
-            s += f"STDOUT:\n{self.stdout}\n"
-        if len(self.stderr) > 0:
-            s += f"STDERR:\n{self.stderr}\n"
+        out = f"STDOUT:\n{self.stdout}\n" if len(self.stdout) > 0 else ""
+        err = f"STDERR:\n{self.stderr}\n" if len(self.stderr) > 0 else ""
+        s = (
+            f"{name}{points}Command `{self.cmd}` exited with code {self.ret}\n"
+            f"{out}{err}"
+        )
         return s
 
     @staticmethod
@@ -45,22 +48,12 @@ class TestResult:
 
 
 class DiffTestResult(TestResult):
-    def __init__(
-        self,
-        name: str = None,
-        cmd: str = None,
-        ret: int = None,
-        stdout: str = None,
-        stderr: str = None,
-        points: float = None,
-        maxpoints: float = None,
-        diffout: str = None,
-    ):
-        TestResult.__init__(self, name, cmd, ret, stdout, stderr, points, maxpoints)
+    def __init__(self, diffout: str = None, **kwargs):
+        super().__init__(**kwargs)
         self.diffout = diffout
 
-    def __str__(self):
-        s = TestResult.__str__(self)
+    def log(self):
+        s = super().log()
         if len(self.diffout) > 0:
             s += f"DIFFOUT:\n{self.diffout}"
         return s
