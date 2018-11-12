@@ -1,6 +1,7 @@
 import shlex
 
 from TestResult import TestResult, DiffTestResult
+import junit
 from utils import *
 
 
@@ -29,11 +30,11 @@ class TestRunner:
     def log(self):
         """ Writes full results to logfile """
         for tr in self.results:
-            self.logfile.write(str(tr))
+            self.logfile.write(tr.log())
 
     def __junit_test(self, test):
         """ Runs a junit test .class file """
-        tr = TestResult(test["name"])
+        tr = TestResult(name=test["name"])
         cmd = shlex.split(
             (
                 f"""java -jar {libdir() / "junit-platform-console-standalone-1.3.1.jar"}"""
@@ -44,12 +45,14 @@ class TestRunner:
         )
         tr.ret, tr.stdout, tr.stderr = run_command(cmd, cwd=self.workdir)
         tr.cmd = " ".join(cmd)
+        tr.stdout, tr.points, tr.maxpoints = junit.parse_xml(self.workdir / self.outdir)
         self.results.append(tr)
 
     def __diff_test(self, test):
         """ Runs a specified command and compares the result to the expected output  """
-        tr = DiffTestResult(test["name"])
-        tr.cmd = test["command"]
+        tr = DiffTestResult(
+            name=test["name"], cmd=test["command"], maxpoints=test.get("points")
+        )
         cmd = shlex.split(tr.cmd)
         tr.ret, tr.stdout, tr.stderr = run_command(
             cmd,
@@ -61,6 +64,12 @@ class TestRunner:
         )
         with (Path(".config") / test["expected"]).open() as f:
             tr.diffout = diff_output(f, tr.stdout)
+
+        if len(tr.diffout) == 0:
+            tr.points = tr.maxpoints
+        else:
+            tr.points = 0
+
         self.results.append(tr)
 
     # test type -> test runner mapping
