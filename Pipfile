@@ -20,6 +20,7 @@ sphinx-jsonschema = "*"
 numpy = "*"
 pre-commit = "*"
 "bump2version" = "*"
+pyinstaller = "*"
 
 [requires]
 python_version = "3.7"

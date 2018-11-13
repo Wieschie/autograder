@@ -56,7 +56,11 @@ def diff_output(expected: TextIO, actual: str) -> str:
 
 
 def libdir() -> Path:
-    return Path(sys.path[0]) / ".lib"
+    if getattr(sys, "frozen", False):
+        # running inside pyinstaller bundle
+        return Path(sys._MEIPASS) / ".lib"
+    else:
+        return Path(sys.path[0]) / ".lib"
 
 
 def log_command(file: TextIO, ret: int, out: str, err: str):
