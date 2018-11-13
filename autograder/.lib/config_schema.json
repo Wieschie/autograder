@@ -135,7 +135,24 @@
                 ]
             },
             "minItems": 1
+        },
+        "output": {
+            "type": "object",
+            "properties": {
+                "build": {
+                    "description": "Template string for build command output.",
+                    "type": "string"
+                },
+                "junit": {
+                    "description": "Template string for junit test output.",
+                    "type": "string"
+                },
+                "diff": {
+                    "description": "Template string for diff test output.",
+                    "type": "string"
+                }
+            }
         }
     },
-    "required": [ "output_dir", "test" ]
+    "required": [ "output", "output_dir", "test" ]
 }
