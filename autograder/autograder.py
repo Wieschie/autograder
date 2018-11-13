@@ -24,7 +24,7 @@ def cli():
 def genconfig():
     """ Generate a skeleton config directory """
     try:
-        (Path(".") / ".config").mkdir()
+        (Path(".") / ".config").mkdir(exist_ok=False)
     except FileExistsError:
         raise click.UsageError(".config directory already exists.")
     copyfile(str(libdir() / "config.toml"), Path(".") / ".config")
@@ -40,10 +40,13 @@ def testall():
         runtest(config, workdir)
 
 
-@cli.command()
+@cli.command(short_help="Build and test one or more specified projects")
 @click.argument("directories", nargs=-1, required=True)
 def test(directories):
-    """ Build and test one or more specified projects (relative subdirectories) """
+    """
+    Build and test one or more specified projects. Followed by space-delimited list of
+    relative subdirectories.
+    """
     config = load_config()
     for d in directories:
         runtest(config, Path(d))
