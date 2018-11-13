@@ -26,7 +26,11 @@ def genconfig():
     try:
         (Path(".") / ".config").mkdir(exist_ok=False)
     except FileExistsError:
-        raise click.UsageError(".config directory already exists.")
+        click.confirm(
+            ".config directory already exists. "
+            "Would you like to overwrite config.toml?",
+            abort=True,
+        )
     copyfile(str(libdir() / "config.toml"), Path(".") / ".config")
 
 
