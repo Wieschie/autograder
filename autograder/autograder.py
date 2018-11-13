@@ -86,20 +86,13 @@ def runtest(config: Config, workdir: Path):
 
             if "commands" in config["build"]:
                 for command in config["build"]["commands"]:
-                    br = TestResult(cmd=command)
+                    br = TestResult(test_type="build", cmd=command)
                     command = shlex.split(command)
-                    br.ret, br.stdout, br.stderr = run_command(command, cwd=workdir)
-                    logfile.write(br.log())
+                    br.retval, br.stdout, br.stderr = run_command(command, cwd=workdir)
+                    logfile.write(br.log(config["output"]["build"]))
 
         # loop through and run all tests
-        test_runner = TestRunner(
-            logfile,
-            workdir,
-            config["output_dir"],
-            config["test"],
-            config.get("memory_limit"),
-            config.get("process_limit"),
-        )
+        test_runner = TestRunner(logfile, workdir, config)
         test_runner.run_all()
         test_runner.log()
 

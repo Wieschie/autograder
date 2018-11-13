@@ -1,32 +1,54 @@
 ## Max memory used at once, in bytes
 #memory_limit = 0
 ## Max child processes allowed
-# process_limit = 0
+#process_limit = 0
 
 ## location of test output
 output_dir = "out"
 
-## build steps, if required
-#[build]
-#source_dir = "src"
-## array of (file, dest) pairs that define files stored in .config, and where they should be copied to
-#required_files = [ { file = '', dest = '' } ]
-## array of commands to run (in order) to build projects
-#commands = [ '' ]
+# build steps, if required
+[build]
+source_dir = "src"
+# array of (file, dest) pairs that define files stored in .config, and where they should be copied to
+required_files = [ { file = '', dest = '' } ]
+# array of commands to run (in order) to build projects
+commands = [ '' ]
 
-## defined tests - can have any number of varying types
-#[[test]]
-#name = "JUnit test suite 1"
-#type = "junit"
-#classname = "p01.ProjectTest"
+# defined tests - can have any number of varying types
+[[test]]
+name = "JUnit test suite 1"
+type = "junit"
+classname = "p01.ProjectTest"
 
-#[[test]]
-#name = "Diff test 1"
-#type = "diff"
-## integer point value of test - optional
-#points = 
-#command = ""
-## String value to feed to STDIN of command
-#input = "1 1 2 2"
-## name of text file stored in .config to compare against actual output
-#expected = "output.txt" 
+[[test]]
+name = "Diff test 1"
+type = "diff"
+# integer point value of test - optional
+points = 10
+command = ""
+# String value to feed to STDIN of command
+input = "1 1 2 2"
+# name of text file stored in .config to compare against actual output
+expected = "output.txt"
+
+[output]
+build = """
+Command `$cmd` exited with code $retval
+"""
+junit = """
+$name
+$points points awarded.
+Command `$cmd` exited with code $retval
+$stdout
+$stderr
+"""
+diff = """
+$name
+$points points awarded.
+Command `$cmd` exited with code $retval
+$stderr
+$diffout
+"""
+
+
+

@@ -96,3 +96,8 @@
 
 ## 2018-11-11
 * Add third job type, or add pre/post jobs (but then have to figure out how to redirect output?)
+
+## 2018-11-13
+* Use Template strings and [substitute()](https://docs.python.org/3/library/string.html#template-strings) for templating output
+  * rework current output to template file
+* @TODO: take stdin from file for diff tests

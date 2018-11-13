@@ -1,7 +1,8 @@
 import shlex
 
-from TestResult import TestResult, DiffTestResult
+from Config import Config
 import junit
+from TestResult import TestResult
 from utils import *
 
 
@@ -10,31 +11,27 @@ class TestRunner:
     Handles actual execution of defined tests.
     """
 
-    def __init__(
-        self,
-        logfile: TextIO,
-        workdir: Path,
-        outdir: Path,
-        tests: List,
-        memory_limit: int = None,
-        process_limit: int = None,
-    ):
+    def __init__(self, logfile: TextIO, workdir: Path, config: Config):
         self.logfile: TextIO = logfile
         self.workdir: Path = workdir
-        self.outdir: Path = outdir
-        self.tests: List = tests  #: list of tests directly from config dictionary
-        self.memory_limit = memory_limit
-        self.process_limit = process_limit
+        self.config = config
+        self.outdir: Path = config["output_dir"]
+        self.tests: List = config["test"]  #: list of tests directly from config dict
         self.results: List[TestResult] = []
 
     def log(self):
         """ Writes full results to logfile """
+        template_map = {
+            "junit": self.config["output"]["junit"],
+            "diff": self.config["output"]["diff"],
+        }
+
         for tr in self.results:
-            self.logfile.write(tr.log())
+            self.logfile.write(tr.log(template_map[tr.test_type]))
 
     def __junit_test(self, test):
         """ Runs a junit test .class file """
-        tr = TestResult(name=test["name"])
+        tr = TestResult(name=test["name"], test_type=test["type"])
         cmd = shlex.split(
             (
                 f"""java -jar {libdir() / "junit-platform-console-standalone-1.3.1.jar"}"""
@@ -43,24 +40,27 @@ class TestRunner:
             ),
             posix=("win" not in sys.platform),
         )
-        tr.ret, tr.stdout, tr.stderr = run_command(cmd, cwd=self.workdir)
+        tr.retval, tr.stdout, tr.stderr = run_command(cmd, cwd=self.workdir)
         tr.cmd = " ".join(cmd)
         tr.stdout, tr.points, tr.maxpoints = junit.parse_xml(self.workdir / self.outdir)
         self.results.append(tr)
 
     def __diff_test(self, test):
         """ Runs a specified command and compares the result to the expected output  """
-        tr = DiffTestResult(
-            name=test["name"], cmd=test["command"], maxpoints=test.get("points")
+        tr = TestResult(
+            name=test["name"],
+            test_type=test["type"],
+            cmd=test["command"],
+            maxpoints=test.get("points"),
         )
         cmd = shlex.split(tr.cmd)
-        tr.ret, tr.stdout, tr.stderr = run_command(
+        tr.retval, tr.stdout, tr.stderr = run_command(
             cmd,
             cwd=(self.workdir / "out"),
             sinput=test["input"],
             timeout=test.get("timeout"),
-            memory_limit=self.memory_limit,
-            process_limit=self.process_limit,
+            memory_limit=self.config.get("memory_limit"),
+            process_limit=self.config.get("process_limit"),
         )
         with (Path(".config") / test["expected"]).open() as f:
             tr.diffout = diff_output(f, tr.stdout)
@@ -68,6 +68,7 @@ class TestRunner:
         # diff is blank if matches perfectly
         if len(tr.diffout) == 0:
             tr.points = tr.maxpoints
+            tr.diffout = "Output is identical"
         else:
             tr.points = 0
 
