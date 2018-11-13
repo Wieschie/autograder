@@ -13,13 +13,13 @@ junitparser = "*"
 
 [dev-packages]
 pytest = "*"
-bumpversion = "*"
 sphinx = "*"
 recommonmark = "*"
 sphinx-autodoc-typehints = "*"
 sphinx-jsonschema = "*"
 numpy = "*"
 pre-commit = "*"
+"bump2version" = "*"
 
 [requires]
 python_version = "3.7"
