@@ -16,7 +16,7 @@ from utils import *
 
 @click.group()
 def cli():
-    """ Main entry point. """
+    """ Launch automatic grading of programming assignments """
     pass
 
 
@@ -46,7 +46,7 @@ def test(directories):
     """ Build and test one or more specified projects (relative subdirectories) """
     config = load_config()
     for d in directories:
-        runtest(config, d)
+        runtest(config, Path(d))
 
 
 def load_config() -> Config:
