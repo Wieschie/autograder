@@ -8,7 +8,10 @@ class Config:
     """
 
     def __init__(self, filename: str, schema: str):
-        """ Loads and parses config from file """
+        """
+        Loads and parses config from file.
+        Throws `jsonschema.ValidationError` on invalid config file.
+        """
         self.__config_dict = dict()
         self.__load_config(filename)
         self.__validate_config(schema)

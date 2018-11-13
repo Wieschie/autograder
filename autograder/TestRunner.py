@@ -65,6 +65,7 @@ class TestRunner:
         with (Path(".config") / test["expected"]).open() as f:
             tr.diffout = diff_output(f, tr.stdout)
 
+        # diff is blank if matches perfectly
         if len(tr.diffout) == 0:
             tr.points = tr.maxpoints
         else:

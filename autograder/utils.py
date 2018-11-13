@@ -21,7 +21,7 @@ def box_text(text: str) -> str:
     Draws an Unicode box around the original content
 
     Args:
-        text: original content (should be 80 characters or less)
+        text: original content (should be 1 line and 80 characters or less)
 
     Returns:
         A three-line string.  Unicode box with content centered.
@@ -56,6 +56,7 @@ def diff_output(expected: TextIO, actual: str) -> str:
 
 
 def libdir() -> Path:
+    """ Returns absolute path of .lib directory for data files """
     if getattr(sys, "frozen", False):
         # running inside pyinstaller bundle
         return Path(sys._MEIPASS) / ".lib"
