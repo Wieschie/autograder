@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "9a105a785e17d3ecad2c977d1a86b6cf4d9af0b8b1ae4f18de910c6046be1b7c"
+            "sha256": "114ccca85121c01572e0f34fe8c8a559fb634fff7dbecc2dfdc80eec82f81497"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -208,13 +208,6 @@
                 "sha256:f84be1bb0040caca4cea721fcbbbbd61f9be9464ca236387158b0feea01914a4"
             ],
             "version": "==2.10"
-        },
-        "jsonpointer": {
-            "hashes": [
-                "sha256:c192ba86648e05fdae4f08a17ec25180a9aef5008d973407b581798a83975362",
-                "sha256:ff379fa021d1b81ab539f5ec467c7745beb1a5671463f9dcc2b2d458bd361c1e"
-            ],
-            "version": "==2.0"
         },
         "macholib": {
             "hashes": [
@@ -435,13 +428,6 @@
             ],
             "index": "pypi",
             "version": "==1.4.0"
-        },
-        "sphinx-jsonschema": {
-            "hashes": [
-                "sha256:9e300ddc1ef92577c73b69670b3d2b713c57666285160e8204df300c5870add3"
-            ],
-            "index": "pypi",
-            "version": "==1.8"
         },
         "sphinxcontrib-websupport": {
             "hashes": [

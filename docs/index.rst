@@ -8,7 +8,6 @@ Welcome to Autograder's documentation!
       README <link_to_readme>
       Development Diary <development>
       Internal Documentation <code>
-      Configuration <config>
 
 Indices and tables
 ==================

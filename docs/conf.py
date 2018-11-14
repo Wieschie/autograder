@@ -46,7 +46,6 @@ extensions = [
     "sphinx_autodoc_typehints",
     "sphinx.ext.coverage",
     "sphinx.ext.mathjax",
-    "sphinx-jsonschema",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
