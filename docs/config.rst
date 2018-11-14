@@ -1,1 +1,1 @@
-.. jsonschema:: ../autograder/config_schema.json
+.. jsonschema:: ../autograder/.lib/config_schema.json
