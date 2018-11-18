@@ -65,8 +65,16 @@
                             "description": "Input to feed to STDIN of command.",
                             "type": "string"
                         },
-                        "expected": {
-                            "description": "Text file containing expected output of command.",
+                        "inputFile": {
+                            "description": "Text file containing input to feed to STDIN of command.",
+                            "type": "string"
+                        },
+                        "output": {
+                            "description": "Desired output of command.",
+                            "type": "string"
+                        },
+                        "outputFile": {
+                            "description": "Text file containing desired output of command.",
                             "type": "string"
                         },
                         "timeout": {
@@ -74,7 +82,15 @@
                             "type": "number"
                         }
                     },
-                    "required": [ "name", "type", "command", "input", "expected" ]
+                    "required": [ "name", "type", "command"],
+                    "oneOf": [
+                        { "required": [ "inputFile" ] },
+                        { "required": [ "input" ] }
+                    ],
+                    "oneOf": [
+                        { "required": [ "outputFile" ] },
+                        { "required": [ "output" ] }
+                    ]
                 }
             ]
         }

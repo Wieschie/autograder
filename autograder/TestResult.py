@@ -42,8 +42,8 @@ class TestResult:
             str: full substituted output.  Any invalid identifiers are left as-is
 
         Notes:
-            Valid identifiers
-            =================
+            Valid identifiers:
+
             * $name
             * $cmd
             * $retval

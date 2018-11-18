@@ -31,12 +31,12 @@ def box_text(text: str) -> str:
     return top + "\n│ " + text + " │\n" + bot
 
 
-def diff_output(expected: TextIO, actual: str) -> str:
+def diff_output(expected: List[str], actual: str) -> str:
     """
     Compares the expected and actual outputs of a command
 
     Args:
-        expected: text file containing expected output
+        expected: desired output
         actual: STDOUT captured from command
 
     Returns:
@@ -47,8 +47,8 @@ def diff_output(expected: TextIO, actual: str) -> str:
     actual = actual.replace("\r\n", "\n")
     return "".join(
         difflib.unified_diff(
-            expected.readlines(),
-            actual.splitlines(True),
+            expected,
+            actual.splitlines(keepends=True),
             fromfile="expected",
             tofile="actual",
         )

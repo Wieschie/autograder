@@ -32,9 +32,10 @@ class TestRunner:
     def __junit_test(self, test):
         """ Runs a junit test .class file """
         tr = TestResult(name=test["name"], test_type=test["type"])
+        junit_runner = "junit-platform-console-standalone-1.3.1.jar"
         cmd = shlex.split(
             (
-                f"""java -jar {libdir() / "junit-platform-console-standalone-1.3.1.jar"}"""
+                f"""java -jar {libdir() / junit_runner}"""
                 f""" -cp "{self.outdir}" -c {test["classname"]} --reports-dir="""
                 f"""{self.outdir} --disable-ansi-colors"""
             ),
@@ -53,17 +54,28 @@ class TestRunner:
             cmd=test["command"],
             maxpoints=test.get("points"),
         )
+
+        inp = test.get("input")
+        if inp is None:
+            with (Path(".config") / test["inputFile"]).open() as f:
+                inp = f.read()
+        out = test.get("output")
+        if out is None:
+            with (Path(".config") / test["outputFile"]).open() as f:
+                out = f.read()
+        out = out.splitlines(keepends=True)
+
         cmd = shlex.split(tr.cmd)
         tr.retval, tr.stdout, tr.stderr = run_command(
             cmd,
             cwd=(self.workdir / "out"),
-            sinput=test["input"],
+            sinput=inp,
             timeout=test.get("timeout"),
             memory_limit=self.config.get("memory_limit"),
             process_limit=self.config.get("process_limit"),
         )
-        with (Path(".config") / test["expected"]).open() as f:
-            tr.diffout = diff_output(f, tr.stdout)
+
+        tr.diffout = diff_output(out, tr.stdout)
 
         # diff is blank if matches perfectly
         if len(tr.diffout) == 0:

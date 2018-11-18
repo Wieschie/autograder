@@ -26,10 +26,11 @@ type = "diff"
 # integer point value of test - optional
 points = 10
 command = ""
-# String value to feed to STDIN of command
+# choose either a string value or a text file for input and output
 input = "1 1 2 2"
-# name of text file stored in .config to compare against actual output
-expected = "output.txt"
+#inputFile = "input.txt"
+#output = "1 2 4 6"
+outputFile = "output.txt"
 
 [output]
 build = """
