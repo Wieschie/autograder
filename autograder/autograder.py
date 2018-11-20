@@ -21,7 +21,7 @@ def cli():
 
 
 @cli.command()
-def genconfig():
+def init():
     """ Generate a skeleton config directory """
     try:
         (Path(".") / ".config").mkdir(exist_ok=False)
