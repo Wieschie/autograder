@@ -63,7 +63,6 @@ class TestRunner:
         if out is None:
             with (Path(".config") / test["outputFile"]).open() as f:
                 out = f.read()
-        out = out.splitlines(keepends=True)
 
         cmd = shlex.split(tr.cmd)
         tr.retval, tr.stdout, tr.stderr = run_command(
