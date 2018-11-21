@@ -6,7 +6,7 @@ import shlex
 import click
 from datetime import datetime
 from jsonschema import ValidationError
-from shutil import copyfile
+from shutil import copy
 
 from Config import Config
 from TestResult import TestResult
@@ -31,7 +31,7 @@ def init():
             "Would you like to overwrite config.toml?",
             abort=True,
         )
-    copyfile(str(libdir() / "config.toml"), Path(".") / ".config")
+    copy(str(libdir() / "config.toml"), Path(".").absolute() / ".config")
 
 
 @cli.command()
