@@ -83,10 +83,7 @@ def runtest(config: Config, workdir: Path):
             if "required_files" in config["build"]:
                 for file in config["build"]["required_files"]:
                     (workdir / file["dest"]).mkdir(exist_ok=True, parents=True)
-                    copyfile(
-                        Path(".config") / file["file"],
-                        Path(workdir / file["dest"] / file["file"]),
-                    )
+                    copy(Path(".config") / file["file"], Path(workdir / file["dest"]))
 
             if "commands" in config["build"]:
                 for command in config["build"]["commands"]:
