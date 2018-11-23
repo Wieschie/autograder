@@ -4,7 +4,7 @@ Command line utility to launch automatic grading of programming assignments
 
 import shlex
 import click
-from datetime import datetime
+from datetime import datetime as dt
 from jsonschema import ValidationError
 from shutil import copy
 
@@ -37,11 +37,7 @@ def init():
 @cli.command()
 def testall():
     """ Build and test all projects """
-    config = load_config()
-
-    # loop through all subdirectories (project submissions)
-    for workdir in walk_subdirs("."):
-        runtest(config, workdir)
+    __test(walk_subdirs("."))
 
 
 @cli.command(short_help="Build and test one or more specified projects")
@@ -51,9 +47,19 @@ def test(directories):
     Build and test one or more specified projects. Followed by space-delimited list of
     relative subdirectories.
     """
+    __test(directories)
+
+
+def __test(directories):
+    """
+    Takes a list of directories, initialises results storage, loads config, and
+    calls runtest on each directory.
+    """
+    results_dir = Path(".") / ".results" / dt.now().strftime("%Y-%m-%dT%H-%M-%S")
+    results_dir.mkdir(exist_ok=True, parents=True)
     config = load_config()
     for d in directories:
-        runtest(config, Path(d))
+        runtest(config, Path(d), results_dir)
 
 
 def load_config() -> Config:
@@ -71,12 +77,11 @@ def load_config() -> Config:
     return config
 
 
-def runtest(config: Config, workdir: Path):
-    logfile_name = datetime.now().strftime("autograder_%Y-%m-%dT%H-%M-%S") + ".log"
+def runtest(config: Config, workdir: Path, results_dir: Path):
     print(f"========== Grading {workdir.stem} ==========")
 
     (workdir / config["output_dir"]).mkdir(exist_ok=True, parents=True)
-    with (workdir / logfile_name).open("w", encoding="utf-8") as logfile:
+    with (results_dir / workdir.stem).open("w", encoding="utf-8") as logfile:
         if "build" in config:
             logfile.write(box_text("Build Step") + "\n")
             # copy files from project root to build location

@@ -104,3 +104,8 @@
 * @TODO: schema docs: make an issue / look at writing a pull request?
 "sphinx-jsonschema extends JSON Schema with the $$target key.
 This key is only recognized at the outermost object of the schema."
+
+## 2018-11-21
+* compare stderr
+* save all results to one directory
+* 
