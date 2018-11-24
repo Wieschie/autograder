@@ -15,7 +15,7 @@
                 "type": {
                     "description": "Type of test to run.",
                     "type": "string",
-                    "enum": [ "junit", "diff" ]
+                    "enum": [ "junit", "diff", "custom" ]
                 }
             }
         },
@@ -111,6 +111,23 @@
                     ]
                 }
             ]
+        },
+        "customtest": {
+            "description": "Custom test configuration.",
+            "type": "object",
+            "allOf": [
+                { "$ref": "#/definitions/basetest" },
+                {
+                    "properties": {
+                        "type": {
+                            "description": "Type of test to run.",
+                            "type": "string",
+                            "enum": [ "custom" ]
+                        }
+                    }
+                }
+            ]
+
         }
     },
 
@@ -169,7 +186,8 @@
             "items": {
                 "anyOf": [
                     { "$ref": "#/definitions/junittest" },
-                    { "$ref": "#/definitions/difftest" }
+                    { "$ref": "#/definitions/difftest" },
+                    { "$ref": "#/definitions/customtest" }
                 ]
             },
             "minItems": 1
@@ -188,8 +206,13 @@
                 "diff": {
                     "description": "Template string for diff test output.",
                     "type": "string"
-                }
-            }
+                },
+                "custom": {
+                    "description": "Template string for custom test output.",
+                    "type": "string"
+                },
+            },
+            "required": [ "build", "junit", "diff", "custom" ]
         }
     },
     "required": [ "output", "output_dir", "test" ]

@@ -24,6 +24,7 @@ class TestRunner:
         template_map = {
             "junit": self.config["output"]["junit"],
             "diff": self.config["output"]["diff"],
+            "custom": self.config["output"]["custom"],
         }
 
         for tr in self.results:
@@ -99,8 +100,24 @@ class TestRunner:
 
         self.results.append(tr)
 
+    def __custom_test(self, test):
+        """ Runs any arbitrary command and saves output. """
+        tr = TestResult(name=test["name"], test_type=test["type"], cmd=test["command"])
+
+        cmd = shlex.split(tr.cmd)
+        tr.retval, tr.stdout, tr.stderr = run_command(
+            cmd,
+            cwd=(self.workdir / "out"),
+            sinput="",
+            timeout=test.get("timeout"),
+            memory_limit=self.config.get("memory_limit"),
+            process_limit=self.config.get("process_limit"),
+        )
+
+        self.results.append(tr)
+
     # test type -> test runner mapping
-    __test = {"junit": __junit_test, "diff": __diff_test}
+    __test = {"junit": __junit_test, "diff": __diff_test, "custom": __custom_test}
 
     def run_all(self):
         """ Runs all defined tests, and stores output in `results[]` """

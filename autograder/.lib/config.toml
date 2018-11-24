@@ -55,6 +55,11 @@ Command `$cmd` exited with code $retval
 $stderr
 $diffout
 """
-
+custom = """
+$name
+Command `$cmd` exited with code $retval
+$stdout
+$stderr
+"""
 
 
