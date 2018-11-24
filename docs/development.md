@@ -98,14 +98,13 @@
 * Add third job type, or add pre/post jobs (but then have to figure out how to redirect output?)
 
 ## 2018-11-13
-* Use Template strings and [substitute()](https://docs.python.org/3/library/string.html#template-strings) for templating output
-  * rework current output to template file
-* @TODO: take stdin from file for diff tests
+* DONE: Use Template strings and [substitute()](https://docs.python.org/3/library/string.html#template-strings) for templating output
+* DONE: take stdin from file for diff tests
 * @TODO: schema docs: make an issue / look at writing a pull request?
 "sphinx-jsonschema extends JSON Schema with the $$target key.
 This key is only recognized at the outermost object of the schema."
 
 ## 2018-11-21
-* compare stderr
-* save all results to one directory
-* 
+* DONE: compare stderr
+* DONE: save all results to one directory
+

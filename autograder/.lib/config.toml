@@ -27,10 +27,12 @@ type = "diff"
 points = 10
 command = ""
 # choose either a string value or a text file for input and output
-input = "1 1 2 2"
-#inputFile = "input.txt"
-#output = "1 2 4 6"
-outputFile = "output.txt"
+stdin = "1 1 2 2"
+#stdinFile = "input.txt"
+#stdout = "1 2 4 6"
+stdoutFile = "output.txt"
+#stderr = ""
+#stderrFile = ""
 
 [output]
 build = """

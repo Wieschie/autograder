@@ -55,14 +55,24 @@ class TestRunner:
             maxpoints=test.get("points"),
         )
 
-        inp = test.get("input")
+        inp = test.get("stdin")
         if inp is None:
-            with (Path(".config") / test["inputFile"]).open() as f:
+            with (Path(".config") / test["stdinFile"]).open() as f:
                 inp = f.read()
-        out = test.get("output")
+
+        out = test.get("stdout")
         if out is None:
-            with (Path(".config") / test["outputFile"]).open() as f:
-                out = f.read()
+            filename = test.get("stdoutFile")
+            if filename:
+                with (Path(".config") / filename).open() as f:
+                    out = f.read()
+
+        err = test.get("stderr")
+        if err is None:
+            filename = test.get("stderrFile")
+            if filename:
+                with (Path(".config") / filename).open() as f:
+                    err = f.read()
 
         cmd = shlex.split(tr.cmd)
         tr.retval, tr.stdout, tr.stderr = run_command(
@@ -74,7 +84,11 @@ class TestRunner:
             process_limit=self.config.get("process_limit"),
         )
 
-        tr.diffout = diff_output(out, tr.stdout)
+        tr.diffout = ""
+        if out:
+            tr.diffout += diff_output(out, tr.stdout)
+        if err:
+            tr.diffout += diff_output(err, tr.stderr)
 
         # diff is blank if matches perfectly
         if len(tr.diffout) == 0:

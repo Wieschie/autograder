@@ -46,15 +46,16 @@ working_directory
 | `classname` | string | **Yes**  | Filename of compiled classfile with JUnit test suite.  Should be paired with `required_files` in the build section to copy the classfile into each project directory. |
 
 #### Diff
-| Key                          | Type   | Required | Notes                                                                         |
-| ---                          | ----   | -------- | -----                                                                         |
-| `name`                       | string | **Yes**  |                                                                               |
-| `type`                       | string | **Yes**  | `"diff"`                                                                      |
-| `points`                     | number | No       | All or nothing point value for test.                                          |
-| `command`                    | string | **Yes**  |                                                                               |
-| `input` **OR** `inputFile`   | string | **Yes**  | Raw text, or name of text file, to feed to STDIN                              |
-| `output` **OR** `outputFile` | string | **Yes**  | Raw text, or name of text file, containing correct output to compare against. |
-
+| Key                          | Type   | Required   | Notes                                                                         |
+| ---                          | ----   | --------   | -----                                                                         |
+| `name`                       | string | **Yes**    |                                                                               |
+| `type`                       | string | **Yes**    | `"diff"`                                                                      |
+| `points`                     | number | No         | All or nothing point value for test.                                          |
+| `command`                    | string | **Yes**    |                                                                               |
+| `stdin` **OR** `stdinFile`   | string | **Yes**    | Raw text, or name of text file, to feed to STDIN                              |
+| `stdout` **OR** `stdoutFile` | string | **Yes** \* | Raw text, or name of text file, containing correct stdout to compare against. |
+| `stderr` **OR** `stderrFile` | string | **Yes** \* | Raw text, or name of text file, containing correct stderr to compare against. |
+\* Must have at least one of stdout and stderr defined
 
 #### output
 | Key     | Type   | Required | Notes                                                               |
