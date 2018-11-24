@@ -108,3 +108,6 @@ This key is only recognized at the outermost object of the schema."
 * DONE: compare stderr
 * DONE: save all results to one directory
 
+## 2018-11-24
+* Handle Visual Studio projects with `nested_project` config value.
+  * Just attempts to change to `project/project` when given directory `project`.

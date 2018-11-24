@@ -6,6 +6,9 @@
 ## location of test output
 output_dir = "out"
 
+# used in the default Visual Studio project layout eg: "ProjectName/ProjectName/debug"
+#nested_project = true
+
 # build steps, if required
 [build]
 source_dir = "src"

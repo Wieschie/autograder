@@ -22,12 +22,14 @@ working_directory
 * A full schema is defined in [config_schema.json](autograder/.lib/config_schema.json)
 #### config.toml
 
-| Key                   | Type   | Required | Notes                                                |
-| ---                   | ----   | -------- | -----                                                |
-| `output_dir`          | string | **Yes**  | Name of directory in which to place all output files |
-| [`[build]`](#build)   | object | No       | Optional section containing build requirements       |
-| [`[[test]]`](#tests)      | array  | **Yes**  | Array containing at least 1 test to run              |
-| [`[output]`](#output) | object | **Yes**  | Contains template information for logging output.    |
+| Key                   | Type    | Required | Notes                                                                                |
+| ---                   | ----    | -------- | -----                                                                                |
+| `output_dir`          | string  | **Yes**  | Name of directory in which to place all output files                                 |
+| `nested_project`      | boolean | No       | used in the default Visual Studio project layout eg: "Project/Project/\*"            |
+| [`[build]`](#build)   | object  | No       | Optional section containing build requirements                                       |
+| [`[[test]]`](#tests)  | array   | **Yes**  | Array containing at least 1 test to run                                              |
+| [`[output]`](#output) | object  | **Yes**  | Contains template information for logging output.                                    |
+|                       |         |          |                                                                                      |
 
 #### build
 | Key              | Type  | Required | Notes                                                                                                                                                  |
