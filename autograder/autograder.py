@@ -15,6 +15,7 @@ from utils import *
 
 
 @click.group()
+@click.version_option("1.0.0")
 def cli():
     """ Launch automatic grading of programming assignments """
     pass
