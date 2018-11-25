@@ -3,8 +3,8 @@
 block_cipher = None
 
 
-a = Analysis(['autograder/autograder.py'],
-             pathex=['/home/wieschie/Documents/senior_design/autograder'],
+a = Analysis(['autograder\\autograder.py'],
+             pathex=['D:\\projects\\autograder'],
              binaries=[],
              datas=[ ("autograder/.lib", ".lib") ],
              hiddenimports=[],
