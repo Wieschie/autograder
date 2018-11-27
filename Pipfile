@@ -9,16 +9,15 @@ toml = "*"
 anyconfig = "*"
 jsonschema = "*"
 junitparser = "*"
-"pywin32" = {version = "*", sys_platform = "== 'win32'"}
+pywin32 = {version = "*", sys_platform = "== 'win32'"}
 
 [dev-packages]
 pytest = "*"
 sphinx = "*"
-recommonmark = "*"
 sphinx-autodoc-typehints = "*"
 numpy = "*"
 pre-commit = "*"
-"bump2version" = "*"
+bump2version = "*"
 pyinstaller = "*"
 
 [requires]
