@@ -57,14 +57,18 @@ working_directory
 | `stdin` **OR** `stdinFile`   | string | **Yes**    | Raw text, or name of text file, to feed to STDIN                              |
 | `stdout` **OR** `stdoutFile` | string | **Yes** \* | Raw text, or name of text file, containing correct stdout to compare against. |
 | `stderr` **OR** `stderrFile` | string | **Yes** \* | Raw text, or name of text file, containing correct stderr to compare against. |
+
 \* Must have at least one of stdout and stderr defined
 
 #### output
-| Key     | Type   | Required | Notes                                                               |
-| ---     | ----   | -------- | -----                                                               |
-| `build` | string | **Yes**  | Python template string used to format output for each build command |
-| `junit` | string | **Yes**  | Python template string used to format output for JUnit tests        |
-| `diff`  | string | **Yes**  | Python template string used to format output for diff tests         |
+This section consists of [python template strings](https://docs.python.org/3.7/library/string.html#string.Template) used to format output.
+
+| Key      | Type   | Required | Notes                                                               |
+| ---      | ----   | -------- | -----                                                               |
+| `build`  | string | **Yes**  | Used for each build command                                         |
+| `junit`  | string | **Yes**  | Used for JUnit tests                                                |
+| `diff`   | string | **Yes**  | Used for diff tests                                                 |
+| `custom` | string | **Yes**  | Used for custom tests                                               |
 
 
 ## Development
