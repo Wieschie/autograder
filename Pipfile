@@ -19,6 +19,7 @@ numpy = "*"
 pre-commit = "*"
 bump2version = "*"
 pyinstaller = "*"
+sphinx-rtd-theme = "*"
 
 [requires]
 python_version = "3.7"
