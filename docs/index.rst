@@ -5,7 +5,7 @@ Welcome to Autograder's documentation!
    :maxdepth: 1
    :caption: Contents:
 
-      README <link_to_readme>
+      README <readme>
       Development Diary <development>
       Internal Documentation <code>
 
