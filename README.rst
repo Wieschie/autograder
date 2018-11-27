@@ -1,4 +1,10 @@
-.. image:: https://requires.io/github/Wieschie/autograder/requirements.svg?branch=master
+|docbadge| |requirebadge|
+
+.. |docbadge| image:: https://readthedocs.org/projects/autograder/badge/?version=latest
+     :target: https://autograder.readthedocs.io/en/latest/?badge=latest
+     :alt: Documentation Status
+
+.. |requirebadge| image:: https://requires.io/github/Wieschie/autograder/requirements.svg?branch=master
      :target: https://requires.io/github/Wieschie/autograder/requirements/?branch=master
      :alt: Requirements Status
 
@@ -44,7 +50,7 @@ Configuration
 -  An example configuration file can be found
    `here <autograder/.lib/config.toml>`__.
 -  A full schema is defined in
-   `config_schema.json <autograder/.lib/config_schema.json>`__
+   `config_schema.json <autograder/.lib/config_schema.json>`__z
 
 
 config.toml
