@@ -8,10 +8,3 @@ Welcome to Autograder's documentation!
       README <readme>
       Development Diary <development>
       Internal Documentation <code>
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
