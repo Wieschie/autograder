@@ -8,8 +8,11 @@
      :target: https://requires.io/github/Wieschie/autograder/requirements/?branch=master
      :alt: Requirements Status
 
+.. begin_usage
+
 Autograder
 ==========
+
 
 **Autograder** is a simple, configurable tool for grading programming
 assignments.
@@ -41,6 +44,17 @@ any subdirectories not prefixed with a ``.``
        ├── {necessary files}
    ├── {student_submissions}
 
+Workflow
+~~~~~~~~
+
+1. Gather all student submissions in a common directory, such that each submission is a subdirectory.
+#. Run ``autograder init`` to generate a ``.config/`` directory.
+#. Edit ``.config/config.toml`` as necessary to define environment and tests (see :doc:`Configuration</configuration>` for more details.
+#. Use ``autograder testall`` to run defined tests against all projects.
+#. Results with be collected in the ``.results/`` directory.
+
+.. end_usage
+
 Configuration
 ~~~~~~~~~~~~~
 
@@ -65,8 +79,10 @@ config.toml
   ``[[test]]``,       array,   **Yes**, Array
   ``[output]``,       object,  **Yes**, Contains template information for logging output.
 
+build
+^^^^^
 
-.. csv-table:: build
+.. csv-table::
   :header: "Key", "Type", "Required", "Description"
   :widths: auto
 
@@ -76,7 +92,10 @@ config.toml
 Tests
 ^^^^^
 
-.. csv-table:: JUnit
+JUnit
+#####
+
+.. csv-table::
   :header: "Key", "Type", "Required", "Description"
   :widths: auto
 
@@ -85,7 +104,10 @@ Tests
   ``classname``, string, **Yes**, Filename of compiled classfile with JUnit test suite. Should be paired with ``required_files`` in the build section to copy the classfile into each project directory.
 
 
-.. csv-table:: Diff
+Diff
+####
+
+.. csv-table::
   :header: "Key", "Type", "Required", "Description"
   :widths: auto
 
@@ -116,7 +138,7 @@ used to format output.
   ``diff``,   string, **Yes**,  Used for diff tests
   ``custom``, string, **Yes**,  Used for custom tests
 
-
+.. end_config
 
 Development
 -----------

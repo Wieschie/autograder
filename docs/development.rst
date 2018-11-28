@@ -249,3 +249,9 @@ Development Diary
 
    -  Just attempts to change to ``project/project`` when given
       directory ``project``.
+
+2018-11-27
+----------
+
+- How to handle custom tests?  run command and pipe output to second command?
+- TODO: split README into more rst files for better use on sphinx
