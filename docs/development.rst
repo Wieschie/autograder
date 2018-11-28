@@ -25,7 +25,6 @@ Development Diary
 -  https://docs.python-guide.org/writing/documentation/
 -  https://docs.python-guide.org/writing/structure/
 
-.. _section-1:
 
 2018-09-25
 ----------
@@ -37,7 +36,6 @@ Development Diary
 -  Set path in ``conf.py`` to allow importing autograder module. Will
    have to test this
 
-.. _section-2:
 
 2018-09-26
 ----------
@@ -45,7 +43,6 @@ Development Diary
 -  Begin writing JUnit 5 tests for Complex numbers java project. Will
    use to gather requirements + test running unit tests externally
 
-.. _section-3:
 
 2018-09-27
 ----------
@@ -62,7 +59,6 @@ Development Diary
 -  Good resource for setting limits on spawned processes?
    https://stackoverflow.com/questions/47676469/creating-a-minimal-sandbox-for-running-binary-programs-in-python3
 
-.. _section-4:
 
 2018-10-02
 ----------
@@ -73,7 +69,6 @@ Development Diary
    -  Class file has to be copied into directory with other class files
    -  This handles missing methods without erroring out
 
-.. _section-5:
 
 2018-10-04
 ----------
@@ -82,7 +77,6 @@ Development Diary
 -  Configured Sphinx to use Google-style docstrings and type hints
 -  https://pythonhosted.org/an_example_pypi_project/sphinx.html#full-code-example
 
-.. _section-6:
 
 2018-10-09
 ----------
@@ -96,7 +90,6 @@ Development Diary
 -  Use ``difflib`` to compare actual and expected output. Only way to
    check if successful is returning an empty string?
 
-.. _section-7:
 
 2018-10-16
 ----------
@@ -104,7 +97,6 @@ Development Diary
 -  begin writing sample TOML config file
 -  implement ‘secret’ test files that are removed after test is complete
 
-.. _section-8:
 
 2018-10-17
 ----------
@@ -113,7 +105,6 @@ Development Diary
    `python-anyconfig <https://github.com/ssato/python-anyconfig>`__ to
    handle validation of toml file
 
-.. _section-9:
 
 2018-10-18
 ----------
@@ -143,14 +134,12 @@ Development Diary
 
    -  Next step is parsing JUnit logs
 
-.. _section-10:
 
 2018-10-22
 ----------
 
 -  ``junit.py`` parses both junit xml files and extracts point values
 
-.. _section-11:
 
 2018-10-23
 ----------
@@ -165,14 +154,12 @@ Development Diary
 -  Handle point values in Results
 -  Handle parsed JUnit results
 
-.. _section-12:
 
 2018-10-24
 ----------
 
 -  dump results in human readable txt
 
-.. _section-13:
 
 2018-10-25
 ----------
@@ -182,7 +169,6 @@ Development Diary
    -  set limits before spawning test processes (maybe set some limits
       before building?)
 
-.. _section-14:
 
 2018-10-28
 ----------
@@ -193,7 +179,6 @@ Development Diary
    -  try setting a notification limit on bytes read / wrote, then kill
       process if it increments?
 
-.. _section-15:
 
 2018-10-30
 ----------
@@ -211,7 +196,6 @@ Development Diary
    just the process. for this to work, script must be run as a separate
    user.
 
-.. _section-16:
 
 2018-11-11
 ----------
@@ -219,7 +203,6 @@ Development Diary
 -  Add third job type, or add pre/post jobs (but then have to figure out
    how to redirect output?)
 
-.. _section-17:
 
 2018-11-13
 ----------
@@ -232,7 +215,6 @@ Development Diary
    “sphinx-jsonschema extends JSON Schema with the $$target key. This
    key is only recognized at the outermost object of the schema.”
 
-.. _section-18:
 
 2018-11-21
 ----------
@@ -240,7 +222,6 @@ Development Diary
 -  DONE: compare stderr
 -  DONE: save all results to one directory
 
-.. _section-19:
 
 2018-11-24
 ----------

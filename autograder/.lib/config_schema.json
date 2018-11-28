@@ -17,7 +17,8 @@
                     "type": "string",
                     "enum": [ "junit", "diff", "custom" ]
                 }
-            }
+            },
+            "required": [ "name", "type" ]
         },
         "junittest": {
             "description": "JUnit test configuration.",
@@ -90,7 +91,7 @@
                             "type": "number"
                         }
                     },
-                    "required": [ "name", "type", "command"],
+                    "required": [ "command" ],
                     "oneOf": [
                         { "required": [ "stdinFile" ] },
                         { "required": [ "stdin" ] }
@@ -123,8 +124,13 @@
                             "description": "Type of test to run.",
                             "type": "string",
                             "enum": [ "custom" ]
+                        },
+                        "command": {
+                            "description": "Command to run project.",
+                            "type": "string"
                         }
-                    }
+                    },
+                    "required": [ "command" ]
                 }
             ]
 
