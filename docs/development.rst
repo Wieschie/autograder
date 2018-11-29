@@ -236,3 +236,8 @@ Development Diary
 
 - How to handle custom tests?  run command and pipe output to second command?
 - TODO: split README into more rst files for better use on sphinx
+
+2018-11-29
+----------
+
+- sum points total in results

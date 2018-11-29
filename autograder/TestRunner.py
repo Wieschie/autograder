@@ -26,9 +26,15 @@ class TestRunner:
             "diff": self.config["output"]["diff"],
             "custom": self.config["output"]["custom"],
         }
-
+        points_earned = 0
+        max_points = 0
         for tr in self.results:
+            if tr.points:
+                points_earned += tr.points
+                max_points += tr.maxpoints
             self.logfile.write(tr.log(template_map[tr.test_type]))
+        self.logfile.write(box_text("Score") + "\n")
+        self.logfile.write(f"{points_earned:1g} of {max_points:1g} points earned.")
 
     def __junit_test(self, test):
         """ Runs a junit test .class file """
