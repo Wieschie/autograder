@@ -216,7 +216,7 @@
                 "custom": {
                     "description": "Template string for custom test output.",
                     "type": "string"
-                },
+                }
             },
             "required": [ "build", "junit", "diff", "custom" ]
         }
