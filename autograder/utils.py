@@ -108,7 +108,7 @@ def run_command(
             but not spawn any children)
 
     Returns:
-        - return value of process, or -1 if timed out
+        - return value of process, or a RunError enum if exceptions are raised
         - STDOUT of process
         - STDERR of process
     """
