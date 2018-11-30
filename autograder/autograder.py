@@ -81,12 +81,6 @@ def load_config() -> Config:
 def runtest(config: Config, workdir: Path, results_dir: Path):
     print(f"========== Grading {workdir.name} ==========")
 
-    # handle nested project folders in Visual Studio projects
-    if config.get("nested_project"):
-        workdir = workdir / workdir.name
-        if not workdir.exists():
-            raise FileNotFoundError("Nested project directory not found.")
-
     (workdir / config["output_dir"]).mkdir(exist_ok=True, parents=True)
     with (results_dir / workdir.name).open("w", encoding="utf-8") as logfile:
         if "build" in config:

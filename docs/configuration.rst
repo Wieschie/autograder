@@ -17,15 +17,6 @@ config.toml
 *string*: Name of directory in which to place all output files
   
 
-.. rubric:: ``nested_project``
-
-*optional boolean*: Set to true if projects follow the default Visual Studio layout eg: ``Project/Project/*``.
-
-.. note::
-  This sets the working directory to the inner project directory.  This means you can run 
-  commands and copy files without worrying about the project name.
-  
-
 .. rubric:: ``[build]``
 
 *optional object*: Optional section containing build requirements

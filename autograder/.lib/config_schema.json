@@ -151,10 +151,6 @@
             "description": "Directory to store build and test results.",
             "type": "string"
         },
-        "nested_project": {
-            "description": "Set to true if grading Visual Studio projects that use nested directories.",
-            "type": "boolean"
-        },
         "build": {
             "type": "object",
             "properties": {
