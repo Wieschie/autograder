@@ -37,8 +37,13 @@ build
 
 .. rubric:: ``required_files``
 
-*optional array*: Array of ``{file="str", dest="str"}`` objects. Files should be 
-stored in .config, and can be copied anywhere within a project subdirectory as needed.
+*optional array*: Array of ``{file="str", dest="str", secret=false}`` objects. Files should be 
+stored in .config, and can be copied anywhere within a project subdirectory as needed. 
+
+.. note:: 
+  ``secret`` is optional; set to true if you want the files to be removed after the tests have run. This could
+  be useful if students have access to the folders being graded (such as on a networked drive).
+
   
 
 .. rubric:: ``commands``

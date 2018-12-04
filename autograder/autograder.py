@@ -82,6 +82,7 @@ def runtest(config: Config, workdir: Path, results_dir: Path):
     print(f"========== Grading {workdir.name} ==========")
 
     (workdir / config["output_dir"]).mkdir(exist_ok=True, parents=True)
+    secret_files = []
     with (results_dir / workdir.name).open("w", encoding="utf-8") as logfile:
         if "build" in config:
             logfile.write(box_text("Build Step") + "\n")
@@ -90,6 +91,8 @@ def runtest(config: Config, workdir: Path, results_dir: Path):
                 for file in config["build"]["required_files"]:
                     (workdir / file["dest"]).mkdir(exist_ok=True, parents=True)
                     copy(Path(".config") / file["file"], Path(workdir / file["dest"]))
+                    if file.get("secret"):
+                        secret_files.append(Path(workdir / file["dest"] / file["file"]))
 
             if "commands" in config["build"]:
                 for command in config["build"]["commands"]:
@@ -102,6 +105,9 @@ def runtest(config: Config, workdir: Path, results_dir: Path):
         test_runner = TestRunner(logfile, workdir, config)
         test_runner.run_all()
         test_runner.log()
+
+        for file in secret_files:
+            file.unlink()
 
 
 if __name__ == "__main__":

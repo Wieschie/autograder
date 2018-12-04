@@ -170,8 +170,13 @@
                             "dest": {
                                 "description": "Destination directory relative to project root.",
                                 "type": "string"
+                            },
+                            "secret": {
+                                "description": "File will be removed after tests execute if true.",
+                                "type": "boolean"
                             }
-                        }
+                        },
+                        "required": [ "file", "dest" ]
                     }
                 },
                 "commands": {
