@@ -241,3 +241,9 @@ Development Diary
 ----------
 
 - sum points total in results
+
+2018-12-04
+----------
+
+- added ``secret`` config value for files
+- Set up Appveyor

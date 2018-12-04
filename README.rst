@@ -1,8 +1,14 @@
-|docbadge| |requirebadge|
+|docbadge|
+
+|buildbadge| |requirebadge|
 
 .. |docbadge| image:: https://readthedocs.org/projects/autograder/badge/?version=latest
      :target: https://autograder.readthedocs.io/en/latest/?badge=latest
      :alt: Documentation Status
+
+.. |buildbadge| image:: https://ci.appveyor.com/api/projects/status/akwole9w6xp4l198/branch/master?svg=true
+     :target: https://ci.appveyor.com/project/Wieschie/autograder/branch/master
+     :alt: Build Status
 
 .. |requirebadge| image:: https://requires.io/github/Wieschie/autograder/requirements.svg?branch=master
      :target: https://requires.io/github/Wieschie/autograder/requirements/?branch=master

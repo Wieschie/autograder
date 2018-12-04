@@ -9,7 +9,7 @@ toml = "*"
 anyconfig = "*"
 jsonschema = "*"
 junitparser = "*"
-pywin32 = {version = "*", sys_platform = "== 'win32'"}
+"pypiwin32" = {version = "*", sys_platform = "== 'win32'"}
 
 [dev-packages]
 pytest = "*"
