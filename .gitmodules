@@ -1,3 +1,3 @@
 [submodule "tests/sample_projects"]
 	path = tests/sample_projects
-	url = https://github.com/Wieschie/autograder.git
+	url = https://github.com/Wieschie/autograder-sample-projects.git
