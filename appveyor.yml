@@ -23,10 +23,17 @@ build_script:
 
 artifacts:
   - path: dist/autograder_linux
+    name: autograder_linux
+
   - path: dist/autograder.exe
+    name: autograder_win
 
 deploy:
   - provider: GitHub
+    auth_token:
+      secure: N/sHELjf8E0NwZ8Wtxfyqa8afsXCBBOvsiCyfDWSy8ocl85Js25NwLg/bInU8jj3
+    description: ''
+    artifact: autograder_linux, autograder_win
     draft: false
     prerelease: false
     on:
