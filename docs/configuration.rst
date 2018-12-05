@@ -91,6 +91,19 @@ Diff
 *string*: command to execute.  Output will be captured and compared.
 
 
+.. rubric:: ``glob_command``
+
+*boolean*: Use `bash-style globbing <http://tldp.org/LDP/abs/html/globbingref.html>`__
+to resolve the executable name.
+
+.. note::
+  Useful when executables follow a common naming format but have unique names 
+  (``CS255P01<LastName>.exe`` would be matched by ``CS225P01*.exe``).
+
+  Arguments can still be used with globbed commands, but only the executable name
+  itself will be resolved.
+
+
 .. rubric:: ``stdin`` **OR** ``stdinFile``
 
 *string*: Raw text, or name of text file, to feed to STDIN.

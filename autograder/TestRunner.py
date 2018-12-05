@@ -82,6 +82,17 @@ class TestRunner:
                     err = f.read()
 
         cmd = shlex.split(tr.cmd)
+
+        # perform globbing of executable name
+        if test.get("glob_command"):
+            executable = list(Path(".").glob(cmd[0]))
+            if len(executable) > 1:
+                tr.warning = f"WARNING: multiple executables matched for glob {cmd[0]}"
+            elif len(executable) > 0:
+                cmd[0] = executable[0]
+            else:
+                tr.warning = f"WARNING: no files matched with glob {cmd[0]}"
+
         tr.retval, tr.stdout, tr.stderr = run_command(
             cmd,
             cwd=(self.workdir / "out"),

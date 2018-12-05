@@ -26,6 +26,7 @@ type = "diff"
 # integer point value of test - optional
 points = 10
 command = ""
+glob_command = false
 # choose either a string value or a text file for input and output
 stdin = "1 1 2 2"
 #stdinFile = "input.txt"

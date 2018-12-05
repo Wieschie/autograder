@@ -14,6 +14,7 @@ class TestResult:
         test_type: str,
         name: str = None,
         cmd: str = None,
+        warning: str = None,
         retval: int = None,
         stdout: str = None,
         stderr: str = None,
@@ -24,6 +25,7 @@ class TestResult:
         self.name = name
         self.test_type = test_type
         self.cmd = cmd
+        self.warning = warning
         self.retval = retval
         self.stdout = stdout
         self.stderr = stderr
@@ -59,7 +61,11 @@ class TestResult:
         err = f"STDERR:\n{self.stderr}" if len(self.stderr) > 0 else ""
         diff = f"DIFFOUT:\n{self.diffout}" if len(self.diffout) > 0 else ""
 
+        if self.warning:
+            tmpl = f"{self.warning}\n{tmpl}"
+
         s = Template(tmpl).safe_substitute(
+            warning=self.warning,
             name=name,
             cmd=textwrap.fill(
                 self.cmd, width=88, break_long_words=False, break_on_hyphens=False

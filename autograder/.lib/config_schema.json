@@ -62,6 +62,10 @@
                             "description": "Command to run project.",
                             "type": "string"
                         },
+                        "glob_command": {
+                            "description": "Specify if the executable name is using globbing.",
+                            "type": "boolean"
+                        },
                         "stdin": {
                             "description": "Input to feed to STDIN of command.",
                             "type": "string"
