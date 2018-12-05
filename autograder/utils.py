@@ -81,7 +81,8 @@ class RunError(Enum):
     TIMEOUT = -1
     MEMORYOUT = -2
     SIGSEGV = -3
-    UNKNOWN = -4
+    NOTEXIST = -4
+    UNKNOWN = -5
 
 
 __errors = {sp.TimeoutExpired: RunError.TIMEOUT, MemoryError: RunError.MEMORYOUT}
@@ -124,9 +125,18 @@ def run_command(
         else:
             win32_limit(memory_limit, process_limit)
 
-    proc = sp.Popen(
-        cmd, cwd=cwd, stdin=sp.PIPE, stdout=sp.PIPE, stderr=sp.PIPE, preexec_fn=preexec
-    )
+    try:
+        proc = sp.Popen(
+            cmd,
+            cwd=cwd,
+            stdin=sp.PIPE,
+            stdout=sp.PIPE,
+            stderr=sp.PIPE,
+            preexec_fn=preexec,
+        )
+    except FileNotFoundError:
+        return RunError.NOTEXIST, f"Command not found: {cmd}", ""
+
     try:
         if sinput is not None:
             sinput = sinput.encode("utf-8")
