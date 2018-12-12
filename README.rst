@@ -1,6 +1,6 @@
 |docbadge|
 
-|buildbadge| |requirebadge|
+|buildbadge| |requirebadge| |pythonbadge| |licensebadge|
 
 .. |docbadge| image:: https://readthedocs.org/projects/autograder/badge/?version=latest
      :target: https://autograder.readthedocs.io/en/latest/?badge=latest
@@ -13,6 +13,14 @@
 .. |requirebadge| image:: https://requires.io/github/Wieschie/autograder/requirements.svg?branch=master
      :target: https://requires.io/github/Wieschie/autograder/requirements/?branch=master
      :alt: Requirements Status
+     
+.. |pythonbadge| image:: https://img.shields.io/badge/python-3.7-blue.svg
+     :target: https://github.com/Wieschie/autograder/blob/master/Pipfile
+     :alt: Python 3.7
+     
+.. |licensebadge| image:: https://img.shields.io/github/license/wieschie/autograder.svg
+     :target: https://github.com/Wieschie/autograder/blob/master/LICENSE.txt
+     :alt: MIT License
 
 Click the docs badge above for full documentation!
 
