@@ -2,6 +2,7 @@
 Command line utility to launch automatic grading of programming assignments
 """
 
+import sys
 import shlex
 import click
 from datetime import datetime as dt
@@ -71,10 +72,10 @@ def load_config() -> Config:
         )
     except FileNotFoundError:
         print("No config file found.  Are you in the root directory of a project?")
-        exit(1)
+        sys.exit(1)
     except ValidationError as e:
         print(f"Invalid config file:\n{e.message}")
-        exit(1)
+        sys.exit(1)
     return config
 
 
