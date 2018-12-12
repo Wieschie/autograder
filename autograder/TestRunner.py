@@ -1,9 +1,13 @@
-import shlex
+import sys
 
-from Config import Config
+import shlex
+from pathlib import Path
+from typing import List, TextIO
+
 import junit
+import utils
+from Config import Config
 from TestResult import TestResult
-from utils import *
 
 
 class TestRunner:
@@ -33,7 +37,7 @@ class TestRunner:
                 points_earned += tr.points
                 max_points += tr.maxpoints
             self.logfile.write(tr.log(template_map[tr.test_type]))
-        self.logfile.write(box_text("Score") + "\n")
+        self.logfile.write(utils.box_text("Score") + "\n")
         self.logfile.write(f"{points_earned:1g} of {max_points:1g} points earned.")
 
     def __junit_test(self, test):
@@ -42,13 +46,13 @@ class TestRunner:
         junit_runner = "junit-platform-console-standalone-1.3.1.jar"
         cmd = shlex.split(
             (
-                f"""java -jar {libdir() / junit_runner}"""
+                f"""java -jar {utils.libdir() / junit_runner}"""
                 f""" -cp "{self.outdir}" -c {test["classname"]} --reports-dir="""
                 f"""{self.outdir} --disable-ansi-colors"""
             ),
             posix=("win" not in sys.platform),
         )
-        tr.retval, tr.stdout, tr.stderr = run_command(cmd, cwd=self.workdir)
+        tr.retval, tr.stdout, tr.stderr = utils.run_command(cmd, cwd=self.workdir)
         tr.cmd = " ".join(cmd)
         tr.stdout, tr.points, tr.maxpoints = junit.parse_xml(self.workdir / self.outdir)
         self.results.append(tr)
@@ -93,7 +97,7 @@ class TestRunner:
             else:
                 tr.warning = f"WARNING: no files matched with glob {cmd[0]}"
 
-        tr.retval, tr.stdout, tr.stderr = run_command(
+        tr.retval, tr.stdout, tr.stderr = utils.run_command(
             cmd,
             cwd=(self.workdir / "out"),
             sinput=inp,
@@ -104,9 +108,9 @@ class TestRunner:
 
         tr.diffout = ""
         if out:
-            tr.diffout += diff_output(out, tr.stdout)
+            tr.diffout += utils.diff_output(out, tr.stdout)
         if err:
-            tr.diffout += diff_output(err, tr.stderr)
+            tr.diffout += utils.diff_output(err, tr.stderr)
 
         # diff is blank if matches perfectly
         if len(tr.diffout) == 0:
@@ -122,7 +126,7 @@ class TestRunner:
         tr = TestResult(name=test["name"], test_type=test["type"], cmd=test["command"])
 
         cmd = shlex.split(tr.cmd)
-        tr.retval, tr.stdout, tr.stderr = run_command(
+        tr.retval, tr.stdout, tr.stderr = utils.run_command(
             cmd,
             cwd=(self.workdir / "out"),
             sinput="",

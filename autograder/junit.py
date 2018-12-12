@@ -1,7 +1,6 @@
+import re
 from junitparser import JUnitXml, FloatAttr
 from pathlib import Path
-import re
-
 
 points_regex = re.compile(""".*display-name:.*points:(\s*[0-9]+\.?[0-9]*).*""")
 

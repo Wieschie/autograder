@@ -1,12 +1,10 @@
-from win32api import GetCurrentProcess, OpenProcess
-from win32job import *
+import sys
+import time
 
+import numpy
 import os
 import subprocess
-import time
-import sys
-import numpy
-
+import win32api
 
 __job = None
 
@@ -24,17 +22,19 @@ def win32_limit(max_memory: int = None, max_processes: int = None):
     if __job:
         return
 
-    __job = CreateJobObject(None, "")
-    AssignProcessToJobObject(__job, GetCurrentProcess())
+    __job = win32api.CreateJobObject(None, "")
+    win32api.AssignProcessToJobObject(__job, win32api.GetCurrentProcess())
 
     # Get current limit info
-    limits = QueryInformationJobObject(None, JobObjectExtendedLimitInformation)
+    limits = win32api.QueryInformationJobObject(
+        None, win32api.JobObjectExtendedLimitInformation
+    )
 
     # modify limits
     limit_flags = (
         0
-        | (JOB_OBJECT_LIMIT_ACTIVE_PROCESS if max_processes else 0)
-        | (JOB_OBJECT_LIMIT_PROCESS_MEMORY if max_memory else 0)
+        | (win32api.JOB_OBJECT_LIMIT_ACTIVE_PROCESS if max_processes else 0)
+        | (win32api.JOB_OBJECT_LIMIT_PROCESS_MEMORY if max_memory else 0)
     )
     limits["BasicLimitInformation"]["LimitFlags"] = limit_flags
     limits["BasicLimitInformation"]["ActiveProcessLimit"] = (
@@ -43,7 +43,9 @@ def win32_limit(max_memory: int = None, max_processes: int = None):
     limits["ProcessMemoryLimit"] = max_memory if max_memory else 0
 
     # set the limits
-    SetInformationJobObject(__job, JobObjectExtendedLimitInformation, limits)
+    win32api.SetInformationJobObject(
+        __job, win32api.JobObjectExtendedLimitInformation, limits
+    )
 
 
 ########################################################################################
@@ -60,7 +62,9 @@ def parent():
 
     input("press any key to do stuff to children")
 
-    job_processes = QueryInformationJobObject(None, JobObjectBasicProcessIdList)
+    job_processes = win32api.QueryInformationJobObject(
+        None, win32api.JobObjectBasicProcessIdList
+    )
     for pid in job_processes:
         if pid == os.getpid():  # Don't kill ourselves
             continue

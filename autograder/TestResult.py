@@ -1,7 +1,7 @@
-from string import Template
 import textwrap
+from string import Template
 
-from utils import box_text
+import utils
 
 
 class TestResult:
@@ -54,7 +54,7 @@ class TestResult:
             * $points
             * $diffout
         """
-        name = f"{box_text(self.name)}" if self.name else ""
+        name = f"{utils.box_text(self.name)}" if self.name else ""
         points = f"{self.points:1g} of {self.maxpoints:1g}" if self.maxpoints else ""
 
         out = f"STDOUT:\n{self.stdout}" if len(self.stdout) > 0 else ""

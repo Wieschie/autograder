@@ -3,16 +3,18 @@ Command line utility to launch automatic grading of programming assignments
 """
 
 import sys
-import shlex
+
 import click
+import shlex
 from datetime import datetime as dt
 from jsonschema import ValidationError
+from pathlib import Path
 from shutil import copy
 
+import utils
 from Config import Config
 from TestResult import TestResult
 from TestRunner import TestRunner
-from utils import *
 
 
 @click.group()
@@ -33,13 +35,13 @@ def init():
             "Would you like to overwrite config.toml?",
             abort=True,
         )
-    copy(str(libdir() / "config.toml"), Path(".").absolute() / ".config")
+    copy(str(utils.libdir() / "config.toml"), Path(".").absolute() / ".config")
 
 
 @cli.command()
 def testall():
     """ Build and test all projects """
-    __test(walk_subdirs("."))
+    __test(utils.walk_subdirs("."))
 
 
 @cli.command(short_help="Build and test one or more specified projects")
@@ -68,7 +70,8 @@ def load_config() -> Config:
     config = None
     try:
         config = Config(
-            ".config/config.toml", str((libdir() / "config_schema.json").absolute())
+            ".config/config.toml",
+            str((utils.libdir() / "config_schema.json").absolute()),
         )
     except FileNotFoundError:
         print("No config file found.  Are you in the root directory of a project?")
@@ -86,7 +89,7 @@ def runtest(config: Config, workdir: Path, results_dir: Path):
     secret_files = []
     with (results_dir / workdir.name).open("w", encoding="utf-8") as logfile:
         if "build" in config:
-            logfile.write(box_text("Build Step") + "\n")
+            logfile.write(utils.box_text("Build Step") + "\n")
             # copy files from project root to build location
             if "required_files" in config["build"]:
                 for file in config["build"]["required_files"]:
@@ -99,7 +102,9 @@ def runtest(config: Config, workdir: Path, results_dir: Path):
                 for command in config["build"]["commands"]:
                     br = TestResult(test_type="build", cmd=command)
                     command = shlex.split(command)
-                    br.retval, br.stdout, br.stderr = run_command(command, cwd=workdir)
+                    br.retval, br.stdout, br.stderr = utils.run_command(
+                        command, cwd=workdir
+                    )
                     logfile.write(br.log(config["output"]["build"]))
 
         # loop through and run all tests
