@@ -1,0 +1,43 @@
+#memory_limit = 33554432
+#process_limit = 1
+
+output_dir = "out"
+
+[[test]]
+name = "JUnit testing"
+type = "junit"
+classname = "p05.ComplexTests"
+command = "yes hello"
+
+[[test]]
+name = "Diff 1"
+type = "diff"
+points = 20
+command = "java p05.EX13_17"
+stdinFile = "input.txt"
+stdoutFile = "output.txt"
+stderr = ""
+
+[output]
+build = "Command `$cmd` exited with code $retval\n"
+junit = """
+$name
+$points points awarded.
+Command `$cmd` exited with code $retval
+$stdout
+$stderr
+"""
+diff = """
+$name
+$points points awarded.
+Command `$cmd` exited with code $retval
+$stderr
+$diffout
+"""
+custom = """
+$name
+Command `$cmd` exited with code $retval
+$stdout
+$stderr
+"""
+
