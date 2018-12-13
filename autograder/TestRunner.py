@@ -100,7 +100,7 @@ class TestRunner:
 
         tr.retval, tr.stdout, tr.stderr = utils.run_command(
             cmd,
-            cwd=(self.workdir / "out"),
+            cwd=self.workdir,
             sinput=inp,
             timeout=test.get("timeout"),
             memory_limit=self.config.get("memory_limit"),
@@ -129,7 +129,7 @@ class TestRunner:
         cmd = shlex.split(tr.cmd)
         tr.retval, tr.stdout, tr.stderr = utils.run_command(
             cmd,
-            cwd=(self.workdir / "out"),
+            cwd=self.workdir,
             sinput="",
             timeout=test.get("timeout"),
             memory_limit=self.config.get("memory_limit"),

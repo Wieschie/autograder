@@ -145,6 +145,7 @@ def run_command(
     except Exception as ex:
         proc.kill()
         out, err = proc.communicate()
+        out = out[:1024]
         return_value = __errors.get(type(ex), RunError.UNKNOWN)
     if "win" not in sys.platform and return_value in [-6, -11, -127]:
         return_value = RunError.SIGSEGV
