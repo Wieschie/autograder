@@ -83,11 +83,11 @@ def load_config() -> Config:
 
 
 def runtest(config: Config, workdir: Path, results_dir: Path):
-    print(f"========== Grading {workdir.name} ==========")
+    print(f"========== Grading {workdir.name}")
 
     (workdir / config["output_dir"]).mkdir(exist_ok=True, parents=True)
     secret_files = []
-    with (results_dir / workdir.name).open("w", encoding="utf-8") as logfile:
+    with (results_dir / f"{workdir.name}.txt").open("w", encoding="utf-8") as logfile:
         if "build" in config:
             logfile.write(utils.box_text("Build Step") + "\n")
             # copy files from project root to build location

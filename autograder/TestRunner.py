@@ -68,32 +68,33 @@ class TestRunner:
 
         inp = test.get("stdin")
         if inp is None:
-            with (Path(".config") / test["stdinFile"]).open() as f:
+            with (Path(".config") / test["stdinFile"]).absolute().open() as f:
                 inp = f.read()
 
         out = test.get("stdout")
         if out is None:
             filename = test.get("stdoutFile")
             if filename:
-                with (Path(".config") / filename).open() as f:
+                with (Path(".config") / filename).absolute().open() as f:
                     out = f.read()
 
         err = test.get("stderr")
         if err is None:
             filename = test.get("stderrFile")
             if filename:
-                with (Path(".config") / filename).open() as f:
+                with (Path(".config") / filename).absolute().open() as f:
                     err = f.read()
 
         cmd = shlex.split(tr.cmd)
 
         # perform globbing of executable name
         if test.get("glob_command"):
-            executable = list(Path(".").glob(cmd[0]))
+            executable = list(self.workdir.glob(cmd[0]))
             if len(executable) > 1:
                 tr.warning = f"WARNING: multiple executables matched for glob {cmd[0]}"
             elif len(executable) > 0:
-                cmd[0] = executable[0]
+                cmd[0] = str(executable[0].absolute())
+                tr.cmd = "".join(cmd)
             else:
                 tr.warning = f"WARNING: no files matched with glob {cmd[0]}"
 
