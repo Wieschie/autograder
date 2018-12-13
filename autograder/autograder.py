@@ -2,8 +2,6 @@
 Command line utility to launch automatic grading of programming assignments
 """
 
-import sys
-
 import click
 import shlex
 from datetime import datetime as dt
@@ -67,18 +65,17 @@ def __test(directories):
 
 
 def load_config() -> Config:
-    config = None
     try:
         config = Config(
             ".config/config.toml",
             str((utils.libdir() / "config_schema.json").absolute()),
         )
-    except FileNotFoundError:
-        print("No config file found.  Are you in the root directory of a project?")
-        sys.exit(1)
+    except FileNotFoundError as ex:
+        raise click.FileError(
+            ex.filename, "are you in the root directory of a project?"
+        )
     except ValidationError as e:
-        print(f"Invalid config file:\n{e.message}")
-        sys.exit(1)
+        raise click.ClickException("Invalid config file:\n{e.message}")
     return config
 
 
@@ -94,7 +91,12 @@ def runtest(config: Config, workdir: Path, results_dir: Path):
             if "required_files" in config["build"]:
                 for file in config["build"]["required_files"]:
                     (workdir / file["dest"]).mkdir(exist_ok=True, parents=True)
-                    copy(Path(".config") / file["file"], Path(workdir / file["dest"]))
+                    try:
+                        copy(
+                            Path(".config") / file["file"], Path(workdir / file["dest"])
+                        )
+                    except FileNotFoundError as ex:
+                        raise click.FileError(ex.filename, "are you sure it exists?")
                     if file.get("secret"):
                         secret_files.append(Path(workdir / file["dest"] / file["file"]))
 
