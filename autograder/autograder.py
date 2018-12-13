@@ -16,7 +16,7 @@ from TestRunner import TestRunner
 
 
 @click.group()
-@click.version_option("1.2.2")
+@click.version_option("1.2.3")
 def cli():
     """ Launch automatic grading of programming assignments """
     pass
