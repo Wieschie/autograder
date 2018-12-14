@@ -15,5 +15,3 @@ You might want to start with the :doc:`usage instructions</usage>`.
 
       Usage <usage>
       Configuration <configuration>
-      Development Diary <development>
-      Internal Documentation <code>
